@@ -35,6 +35,7 @@ class AeselDataList(object):
     def to_dict(self, data_type):
         return_dict = copy.deepcopy(vars(self))
         return_dict[data_type] = []
+        del return_dict["data"]
         for elt in self.data:
             elt_dict = elt.to_dict()
             return_dict[data_type].append(elt_dict)

@@ -21,14 +21,14 @@ Central Aesel HTTP Client Definition.
 
 from auth0.v3.authentication import Database
 
-from model.AeselAssetMetadata import AeselAssetMetadata
-from model.AeselAssetRelationship import AeselAssetRelationship
-from model.AeselDataList import AeselDataList
-from model.AeselObject import AeselObject
-from model.AeselProperty import AeselProperty
-from model.AeselScene import AeselScene
-from model.AeselSceneTransform import AeselSceneTransform
-from model.AeselUserDevice import AeselUserDevice
+from aesel.model.AeselAssetMetadata import AeselAssetMetadata
+from aesel.model.AeselAssetRelationship import AeselAssetRelationship
+from aesel.model.AeselDataList import AeselDataList
+from aesel.model.AeselObject import AeselObject
+from aesel.model.AeselProperty import AeselProperty
+from aesel.model.AeselScene import AeselScene
+from aesel.model.AeselSceneTransform import AeselSceneTransform
+from aesel.model.AeselUserDevice import AeselUserDevice
 
 import requests
 
@@ -42,7 +42,7 @@ class AeselTransactionClient(object):
 
         # Start an HTTP Session
         # Includes a connection pool, and let's us set global auth attributes
-        self.http_session = r.session()
+        self.http_session = requests.session()
 
     # Internal method for generating the base URL String of the Aesel API
     def gen_base_url(self):
@@ -89,8 +89,14 @@ class AeselTransactionClient(object):
         # Set up query parameters
         query_params = self.gen_asset_params(asset, relationship)
 
+        # Deduce the content-type
+        content_type = "text/plain"
+        if asset is not None:
+            content_type = asset.content_type
+
         # Send the HTTP Request
-        r = self.http_session.post(self.gen_base_url() + "/asset", file, params=query_params, allow_redirects=True)
+        request_file = {'file': (file, open(file, 'rb'), content_type, {'Expires': '0'})}
+        r = self.http_session.post(self.gen_base_url() + "/asset", files=request_file, params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -111,7 +117,8 @@ class AeselTransactionClient(object):
         query_params = self.gen_asset_params(asset, relationship)
 
         # Send the HTTP Request
-        r = self.http_session.post(self.gen_base_url() + "/asset/" + key, file, params=query_params, allow_redirects=True)
+        request_file = {'file': (file, open(file, 'rb'), content_type, {'Expires': '0'})}
+        r = self.http_session.post(self.gen_base_url() + "/asset/" + key, files=request_file, params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -127,7 +134,7 @@ class AeselTransactionClient(object):
         :return: The content of the response, usually to be saved to a file.
         """
         # Send a get request
-        r = self.http_session.get(self.get_base_url() + "/asset/" + key, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/asset/" + key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -146,7 +153,7 @@ class AeselTransactionClient(object):
         query_params = self.gen_asset_params(asset, None)
 
         # Send a get request
-        r = self.http_session.get(self.get_base_url() + "/asset", params=query_params, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/asset", params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -162,7 +169,7 @@ class AeselTransactionClient(object):
         :return: JSON containing an Asset History corresponding to the requested Asset.
         """
         # Send a get request
-        r = self.http_session.get(self.get_base_url() + "/history/" + key, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/history/" + key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -176,7 +183,7 @@ class AeselTransactionClient(object):
 
         :param str key: The key of the Asset to delete
         """
-        r = self.http_session.delete(self.get_base_url() + "/asset/" + key, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/asset/" + key, allow_redirects=True)
         r.raise_for_status()
 
     def save_asset_relationship(self, new_relationship, existing_relationship=None):
@@ -194,7 +201,10 @@ class AeselTransactionClient(object):
             query_params['related-type'] = existing_relationship.type
 
         # Send a put request
-        r = self.http_session.put(self.get_base_url() + "/relationship", json=new_relationship.to_dict())
+        if existing_relationship is None:
+            r = self.http_session.put(self.gen_base_url() + "/relationship", json=new_relationship.to_dict())
+        else:
+            r = self.http_session.put(self.gen_base_url() + "/relationship", json=new_relationship.to_dict(), params=query_params)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -212,7 +222,7 @@ class AeselTransactionClient(object):
         :return: JSON with deleted asset relationships.
         """
         query_params = {"asset": asset, "type": type, "related": related}
-        r = self.http_session.delete(self.get_base_url() + "/relationship", params=query_params, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/relationship", params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -220,17 +230,21 @@ class AeselTransactionClient(object):
         # Return the json content of the response
         return r.json()
 
-    def query_asset_relationships(self, asset, type, related):
+    def query_asset_relationships(self, query):
         """
         Query for asset relationships.
 
-        :param str asset: The Asset key in the relationships to find.
-        :param str type: The type of the relationships to find.
-        :param str related: The related entity key in the relationships to find.
+        :param str query: The AeselAssetRelationship to use as a query.
         :return: JSON with a list of found asset relationships, including keys.
         """
-        query_params = {"asset": asset, "type": type, "related": related}
-        r = self.http_session.get(self.get_base_url() + "/relationship", params=query_params, allow_redirects=True)
+        query_params = {}
+        if query['asset'] is not None:
+            query_params['asset'] = query.asset
+        if query['related'] is not None:
+            query_params['related'] = query.related
+        if query['type'] is not None:
+            query_params['type'] = query.type
+        r = self.http_session.get(self.gen_base_url() + "/relationship", params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -254,7 +268,7 @@ class AeselTransactionClient(object):
         data_list.num_records = 1
         data_list.start_record = 0
         data_list.data.append(scene)
-        r = self.http_session.put(self.get_base_url() + "/scene/" + key, json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.put(self.gen_base_url() + "/scene/" + key, json=(data_list.to_dict("scenes")), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -274,7 +288,7 @@ class AeselTransactionClient(object):
         data_list.num_records = 1
         data_list.start_record = 0
         data_list.data.append(scene)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + key, json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + key, json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -289,7 +303,7 @@ class AeselTransactionClient(object):
         :param str key: The key of the Scene to update
         :return: JSON with a list of retrieved scenes.
         """
-        r = self.http_session.get(self.get_base_url() + "/scene/" + key, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/scene/" + key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -303,7 +317,7 @@ class AeselTransactionClient(object):
 
         :param str key: The key of the Scene to delete
         """
-        r = self.http_session.delete(self.get_base_url() + "/scene/" + key, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/scene/" + key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -321,7 +335,7 @@ class AeselTransactionClient(object):
         data_list.num_records = num_records
         data_list.start_record = start_record
         data_list.data.append(scene)
-        r = self.http_session.post(self.get_base_url() + "/scene/query", json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/query", json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -349,7 +363,7 @@ class AeselTransactionClient(object):
         data_list.data.append(scene_data)
 
         # Send the request
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/register", json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/register", json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -357,24 +371,26 @@ class AeselTransactionClient(object):
         # Return the json content of the response
         return r.json()
 
-    def deregister(self, scene_key, device):
+    def deregister(self, scene_key, device_key):
         """
         Deregister a device from a scene.
 
         :param str scene_key: The key of the AeselScene to deregister from.
-        :param device: The AeselUserDevice which is deregistering.
+        :param str device: The key of the AeselUserDevice which is deregistering.
         :return: JSON with a list of updated scenes.
         """
         data_list = AeselDataList()
         data_list.num_records = 2
         data_list.start_record = 0
         scene_data = AeselScene()
+        ud = AeselUserDevice()
         scene_data.key = scene_key
-        scene_data.devices.append(device)
+        ud.key = device_key
+        scene_data.devices.append(ud)
         data_list.data.append(scene_data)
 
         # Send the request
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/deregister", json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/deregister", json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -382,12 +398,12 @@ class AeselTransactionClient(object):
         # Return the json content of the response
         return r.json()
 
-    def synchronize(self, scene_key, device, transform):
+    def synchronize(self, scene_key, device_key, transform):
         """
         Correct the device transformation relative to the scene.
 
         :param scene_key: The key of the AeselScene in the relationship.
-        :param device: The AeselUserDevice which is registered.
+        :param device_key: The key of the AeselUserDevice which is registered.
         :param transform: The updated transformation.
         :return: JSON with a list of updated scenes.
         """
@@ -395,14 +411,15 @@ class AeselTransactionClient(object):
         data_list.num_records = 2
         data_list.start_record = 0
         scene_data = AeselScene()
+        ud = AeselUserDevice()
         scene_data.key = scene_key
-        if transform is not None:
-            device.transform = transform
-        scene_data.devices.append(device)
+        ud.key = device_key
+        ud.transform = transform
+        scene_data.devices.append(ud)
         data_list.data.append(scene_data)
 
         # Send the request
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/align", json=data_list.to_dict("scenes"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/align", json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -426,7 +443,7 @@ class AeselTransactionClient(object):
         data_list.num_records = 1
         data_list.start_record = 0
         data_list.data.append(obj)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/object", json=data_list.to_dict("objects"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/object", json=data_list.to_dict("objects"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -447,7 +464,7 @@ class AeselTransactionClient(object):
         data_list.num_records = 1
         data_list.start_record = 0
         data_list.data.append(obj)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/object/" + obj_key, json=data_list.to_dict("objects"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/object/" + obj_key, json=data_list.to_dict("objects"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -463,7 +480,7 @@ class AeselTransactionClient(object):
         :param str obj_key: The key of the AeselObject to get.
         :return: JSON with a list of created objects, including the newly generated key.
         """
-        r = self.http_session.get(self.get_base_url() + "/scene/" + scene_key + "/object/" + obj_key, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/scene/" + scene_key + "/object/" + obj_key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -478,7 +495,7 @@ class AeselTransactionClient(object):
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str obj_key: The key of the AeselObject to get.
         """
-        r = self.http_session.delete(self.get_base_url() + "/scene/" + scene_key + "/object/" + obj_key, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/scene/" + scene_key + "/object/" + obj_key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -495,7 +512,7 @@ class AeselTransactionClient(object):
         data_list = AeselDataList()
         data_list.num_records = num_records
         data_list.data.append(object)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/object/query", json=data_list.to_dict("objects"), allow_redirects=True)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/object/query", json=data_list.to_dict("objects"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -512,7 +529,7 @@ class AeselTransactionClient(object):
         :param str device_key: The key of the AeselUserDevice obtaining the lock.
         """
         query_params = {"device": device_key}
-        r = self.http_session.get(self.get_base_url() + "/scene/" + scene_key + "/object/" + obj_key + "/lock", params=query_params, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/scene/" + scene_key + "/object/" + obj_key + "/lock", params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -526,7 +543,7 @@ class AeselTransactionClient(object):
         :param str device_key: The key of the AeselUserDevice obtaining the lock.
         """
         query_params = {"device": device_key}
-        r = self.http_session.delete(self.get_base_url() + "/scene/" + scene_key + "/object/" + obj_key + "/lock", params=query_params, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/scene/" + scene_key + "/object/" + obj_key + "/lock", params=query_params, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -546,8 +563,8 @@ class AeselTransactionClient(object):
         data_list = AeselDataList()
         data_list.num_records = 1
         data_list.start_record = 0
-        data_list.data.append(obj)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/property", json=data_list.to_dict("properties"), allow_redirects=True)
+        data_list.data.append(property)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/property", json=data_list.to_dict("properties"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -567,8 +584,8 @@ class AeselTransactionClient(object):
         data_list = AeselDataList()
         data_list.num_records = 1
         data_list.start_record = 0
-        data_list.data.append(obj)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/property/" + obj_key, json=data_list.to_dict("properties"), allow_redirects=True)
+        data_list.data.append(property)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/property/" + property_key, json=data_list.to_dict("properties"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -584,7 +601,7 @@ class AeselTransactionClient(object):
         :param str property_key: The key of the AeselProperty to get.
         :return: JSON with a list of created properties, including the newly generated key.
         """
-        r = self.http_session.get(self.get_base_url() + "/scene/" + scene_key + "/property/" + property_key, allow_redirects=True)
+        r = self.http_session.get(self.gen_base_url() + "/scene/" + scene_key + "/property/" + property_key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -599,7 +616,7 @@ class AeselTransactionClient(object):
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str property_key: The key of the AeselProperty to get.
         """
-        r = self.http_session.delete(self.get_base_url() + "/scene/" + scene_key + "/property/" + property_key, allow_redirects=True)
+        r = self.http_session.delete(self.gen_base_url() + "/scene/" + scene_key + "/property/" + property_key, allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -615,8 +632,8 @@ class AeselTransactionClient(object):
         """
         data_list = AeselDataList()
         data_list.num_records = num_records
-        data_list.data.append(object)
-        r = self.http_session.post(self.get_base_url() + "/scene/" + scene_key + "/property/query", json=data_list.to_dict("properties"), allow_redirects=True)
+        data_list.data.append(property)
+        r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/property/query", json=data_list.to_dict("properties"), allow_redirects=True)
 
         # Throw an error for bad responses
         r.raise_for_status()

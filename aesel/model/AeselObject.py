@@ -23,7 +23,7 @@ import copy
 import json
 
 class AeselObject(object):
-        def __init__(self):
+    def __init__(self):
         self.key = None
         self.name = None
         self.scene = None
@@ -46,6 +46,7 @@ class AeselObject(object):
             return_dict['translation_handle'] = vars(self.translation_handle)
             return_dict['rotation_handle'] = vars(self.rotation_handle)
             return_dict['scale_handle'] = vars(self.scale_handle)
+        return return_dict
 
     def to_transform_json(self):
         msg_dict = {

@@ -20,6 +20,7 @@ Data Model for Properties.
 """
 
 import copy
+import json
 
 class AeselProperty(object):
     def __init__(self):
@@ -51,5 +52,5 @@ class AeselProperty(object):
                     }
         for val in self.values:
             val_dict = vars(val)
-            return_dict['values'].append(val_dict)
+            msg_dict['values'].append(val_dict)
         return json.dumps(msg_dict)

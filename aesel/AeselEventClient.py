@@ -22,9 +22,9 @@ Central Aesel UDP Client Definition.
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from model.AeselDataList import AeselDataList
-from model.AeselObject import AeselObject
-from model.AeselProperty import AeselProperty
+from aesel.model.AeselDataList import AeselDataList
+from aesel.model.AeselObject import AeselObject
+from aesel.model.AeselProperty import AeselProperty
 
 import socket
 
@@ -47,7 +47,7 @@ class AeselEventClient(object):
         self.backend = default_backend()
         self.update_endpoint(host, port, encryption_key, encryption_iv)
 
-    def update_endpoint(host, port, encryption_key=None, encryption_iv=None):
+    def update_endpoint(self, host, port, encryption_key=None, encryption_iv=None):
         """
         Update Client address & encryption credentials (key & salt).
 
@@ -69,10 +69,10 @@ class AeselEventClient(object):
             # Send an encrypted message
             encryptor = cipher.encryptor()
             encrypted = encryptor.update(bytes(msg, 'UTF-8')) + encryptor.finalize()
-            self.socket.sendto(encrypted, self.host, self.port)
+            self.socket.sendto(encrypted, (self.host, int(self.port)))
         else:
             # Send a plaintext message
-            self.socket.sendto(bytes(msg, 'UTF-8'), self.host, self.port)
+            self.socket.sendto(bytes(msg, 'UTF-8'), (self.host, int(self.port)))
 
     def send_object_update(self, obj):
         """
