@@ -376,7 +376,7 @@ def test_asset_api(transaction_client):
     metadata2.asset_type = "second"
     updated_key = None
     try:
-        updated_key = transaction_client.update_asset("test/resources/testupload2.txt", metadata2)
+        updated_key = transaction_client.update_asset(new_key, "test/resources/testupload2.txt", metadata2)
     except Exception as e:
         print(e)
         assert(False)
