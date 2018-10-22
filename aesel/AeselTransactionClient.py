@@ -92,7 +92,8 @@ class AeselTransactionClient(object):
         # Deduce the content-type
         content_type = "text/plain"
         if asset is not None:
-            content_type = asset.content_type
+            if asset.content_type is not None:
+                content_type = asset.content_type
 
         # Send the HTTP Request
         request_file = {'file': (file, open(file, 'rb'), content_type, {'Expires': '0'})}
@@ -115,6 +116,12 @@ class AeselTransactionClient(object):
         """
         # Set up query parameters
         query_params = self.gen_asset_params(asset, relationship)
+
+        # Deduce the content-type
+        content_type = "text/plain"
+        if asset is not None:
+            if asset.content_type is not None:
+                content_type = asset.content_type
 
         # Send the HTTP Request
         request_file = {'file': (file, open(file, 'rb'), content_type, {'Expires': '0'})}

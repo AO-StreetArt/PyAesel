@@ -15,6 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import copy
+
 """
 Data Model for Assets.
 """
@@ -23,4 +25,8 @@ class AeselAssetMetadata(object):
     def __init__(self):
         self.content_type = None
         self.file_type = None
+        self.asset_type = None
+
+    def to_dict(self):
+        return copy.deepcopy(vars(self))
         self.asset_type = None
