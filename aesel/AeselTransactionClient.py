@@ -206,12 +206,9 @@ class AeselTransactionClient(object):
             query_params['asset'] = existing_relationship.asset
             query_params['related'] = existing_relationship.related
             query_params['type'] = existing_relationship.type
-
-        # Send a put request
-        if existing_relationship is None:
-            r = self.http_session.put(self.gen_base_url() + "/relationship", json=new_relationship.to_dict())
-        else:
             r = self.http_session.put(self.gen_base_url() + "/relationship", json=new_relationship.to_dict(), params=query_params)
+        else:
+            r = self.http_session.put(self.gen_base_url() + "/relationship", json=new_relationship.to_dict())
 
         # Throw an error for bad responses
         r.raise_for_status()

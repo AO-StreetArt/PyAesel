@@ -28,4 +28,8 @@ class AeselAssetRelationship(object):
         self.type = None
 
     def to_dict(self):
-        return copy.deepcopy(vars(self))
+        return {
+                    "assetId": self.asset,
+                    "relationshipType": self.type,
+                    "relatedId": self.related
+                }
