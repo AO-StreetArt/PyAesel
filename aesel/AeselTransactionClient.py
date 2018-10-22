@@ -19,8 +19,6 @@ limitations under the License.
 Central Aesel HTTP Client Definition.
 """
 
-from auth0.v3.authentication import Database
-
 from aesel.model.AeselAssetMetadata import AeselAssetMetadata
 from aesel.model.AeselAssetRelationship import AeselAssetRelationship
 from aesel.model.AeselDataList import AeselDataList
