@@ -203,9 +203,9 @@ class AeselTransactionClient(object):
         """
         query_params = {}
         if existing_relationship is not None:
-            query_params['asset-id'] = existing_relationship.asset
-            query_params['related-id'] = existing_relationship.related
-            query_params['related-type'] = existing_relationship.type
+            query_params['asset'] = existing_relationship.asset
+            query_params['related'] = existing_relationship.related
+            query_params['type'] = existing_relationship.type
 
         # Send a put request
         if existing_relationship is None:
