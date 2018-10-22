@@ -245,11 +245,11 @@ class AeselTransactionClient(object):
         :return: JSON with a list of found asset relationships, including keys.
         """
         query_params = {}
-        if query['asset'] is not None:
+        if query.asset is not None:
             query_params['asset'] = query.asset
-        if query['related'] is not None:
+        if query.related is not None:
             query_params['related'] = query.related
-        if query['type'] is not None:
+        if query.type is not None:
             query_params['type'] = query.type
         r = self.http_session.get(self.gen_base_url() + "/relationship", params=query_params, allow_redirects=True)
 

@@ -29,4 +29,3 @@ class AeselAssetMetadata(object):
 
     def to_dict(self):
         return copy.deepcopy(vars(self))
-        self.asset_type = None
