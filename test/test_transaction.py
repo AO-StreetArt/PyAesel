@@ -410,7 +410,7 @@ def test_asset_api(transaction_client):
     # Query Asset Relationships
     print("Asset Relationship Query")
     query_relationship = AeselAssetRelationship()
-    query_relationship.asset = updated_key
+    query_relationship.related = "23456"
     relq_return = None
     try:
         relq_return = transaction_client.query_asset_relationships(query_relationship)
