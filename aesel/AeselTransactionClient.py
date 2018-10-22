@@ -34,11 +34,10 @@ import requests
 
 class AeselTransactionClient(object):
     """The Main Client for accessing Aesel Operations"""
-    def __init__(self, aesel_url, auth0_config=None):
+    def __init__(self, aesel_url):
         """Initialize the Client"""
         self.aesel_addr = aesel_url
         self.api_version = 'v1'
-        self.db_auth = None
 
         # Start an HTTP Session
         # Includes a connection pool, and let's us set global auth attributes
@@ -62,16 +61,9 @@ class AeselTransactionClient(object):
 
     # ------------------End User API Methods----------------------------
 
-    def login(self, auth0_config):
-        """Use the provided Auth0 Configuration to get an access token"""
-        if auth0_config is not None:
-            self.db_auth = Database(auth0_config.domain)
-
-        # Login
-        login_response = self.db_auth.login(auth0_config.client_id, auth0_config.username, auth0_config.password, auth0_config.connection)
-
-        # TO-DO: Parse response
-        # TO-DO: Add headers/cookies to session to apply to all requests
+    def set_auth_info(self, auth_token):
+        """Set the authentication token to be used on Requests"""
+        s.headers.update({"Authorization": "Bearer %s" % auth_token})
 
     # -------------
     # Asset Methods
