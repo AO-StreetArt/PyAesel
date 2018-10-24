@@ -6,6 +6,7 @@
    :maxdepth: 2
    :caption: Contents:
 
+   pages/install.rst
    pages/quickstart.rst
 
 
