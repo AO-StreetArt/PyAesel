@@ -15,13 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Message List, outer wrapper for Object, Scene, and Property messages.
-"""
-
 import copy
 
 class AeselDataList(object):
+    """
+    Message List, outer wrapper for Object, Scene, and Property messages.
+    """
     def __init__(self):
         self.num_records = None
         self.start_record = None

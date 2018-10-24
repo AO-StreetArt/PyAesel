@@ -15,14 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for Properties.
-"""
-
 import copy
 import json
 
 class AeselProperty(object):
+    """
+    Data Model for Properties.
+    """
     def __init__(self):
         self.key = None
         self.name = None

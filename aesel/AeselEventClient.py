@@ -15,13 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Central Aesel UDP Client Definition.
-"""
-
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-
 from aesel.model.AeselDataList import AeselDataList
 from aesel.model.AeselObject import AeselObject
 from aesel.model.AeselProperty import AeselProperty
@@ -55,6 +50,7 @@ class AeselEventClient(object):
         :param port: The port to send the message to.
         :param str encryption_key: AES-256-cbc encryption key to use for outgoing UDP messages.
         :param str encryption_iv: AES-256-cbc encryption IV to use for outgoing UDP messages.
+        :return: None.
         """
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.host = host
@@ -79,6 +75,7 @@ class AeselEventClient(object):
         Send an outgoing Object Update message over UDP.
 
         :param obj: AeselObject to convert into an event.
+        :return: None.
         """
         self._send_update(obj.to_transform_json())
 
@@ -87,5 +84,6 @@ class AeselEventClient(object):
         Send an outgoing Property Update message over UDP.
 
         :param prop: AeselProperty to convert into an event.
+        :return: None.
         """
         self._send_update(prop.to_transform_json())

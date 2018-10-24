@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for Scene Transform.
-"""
-
 class AeselSceneTransform(object):
+    """
+    Data Model for Scene Transform.
+    """
     def __init__(self):
         self.translation = []
         self.rotation = []

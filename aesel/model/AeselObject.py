@@ -15,14 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for Renderable Object.
-"""
-
 import copy
 import json
 
 class AeselObject(object):
+    """
+    Data Model for Renderable Object.
+    """
     def __init__(self):
         self.key = None
         self.name = None

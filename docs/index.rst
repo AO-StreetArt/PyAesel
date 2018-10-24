@@ -10,8 +10,8 @@
 
 
 
-Indices and tables
-==================
+API Documentation
+=================
 
 * :ref:`genindex`
 * :ref:`modindex`

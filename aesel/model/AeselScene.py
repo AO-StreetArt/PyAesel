@@ -15,13 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for Scene.
-"""
-
 import copy
 
 class AeselScene(object):
+    """
+    Data Model for Scene.
+    """
     def __init__(self):
         self.key = None
         self.name = None

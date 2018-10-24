@@ -17,11 +17,10 @@ limitations under the License.
 
 import copy
 
-"""
-Data Model for Asset Relationship.
-"""
-
 class AeselAssetRelationship(object):
+    """
+    Data Model for Asset Relationship.
+    """
     def __init__(self):
         self.asset = None
         self.related = None

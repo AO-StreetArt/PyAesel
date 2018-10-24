@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for Renderable Object.
-"""
-
 class AeselGraphHandle(object):
+    """
+    Data Model for Renderable Object.
+    """
     def __init__(self):
         self.left_type = None
         self.left_x = None

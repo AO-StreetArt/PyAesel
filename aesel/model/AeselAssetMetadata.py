@@ -17,11 +17,10 @@ limitations under the License.
 
 import copy
 
-"""
-Data Model for Assets.
-"""
-
 class AeselAssetMetadata(object):
+    """
+    Data Model for Assets.
+    """
     def __init__(self):
         self.content_type = None
         self.file_type = None

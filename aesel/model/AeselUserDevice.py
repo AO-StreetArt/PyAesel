@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""
-Data Model for User Device.
-"""
-
 class AeselUserDevice(object):
+    """
+    Data Model for User Device.
+    """
     def __init__(self):
         self.key = None
         self.hostname = None
