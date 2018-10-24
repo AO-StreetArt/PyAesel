@@ -20,6 +20,8 @@ installed from the root project directory with:
 
 .. code-block:: bash
 
+   git clone https://github.com/AO-StreetArt/PyAesel.git
+   cd PyAesel
    pip install --user -r requirements.txt
 
 Finally, you can use pip to install the library locally:
