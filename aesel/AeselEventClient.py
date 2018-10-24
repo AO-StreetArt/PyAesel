@@ -36,8 +36,8 @@ class AeselEventClient(object):
 
         :param str host: The host to send the message to.
         :param port: The port to send the message to.
-        :param str encryption_key: AES-256 encryption key to use for outgoing UDP messages.
-        :param str encryption_iv: AES-256 encryption IV to use for outgoing UDP messages.
+        :param str encryption_key: AES-256-cbc encryption key to use for outgoing UDP messages.
+        :param str encryption_iv: AES-256-cbc encryption IV to use for outgoing UDP messages.
         """
         self.socket = None
         self.host = None
@@ -53,8 +53,8 @@ class AeselEventClient(object):
 
         :param str host: The host to send the message to.
         :param port: The port to send the message to.
-        :param str encryption_key: AES-256 encryption key to use for outgoing UDP messages.
-        :param str encryption_iv: AES-256 encryption IV to use for outgoing UDP messages.
+        :param str encryption_key: AES-256-cbc encryption key to use for outgoing UDP messages.
+        :param str encryption_iv: AES-256-cbc encryption IV to use for outgoing UDP messages.
         """
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.host = host
