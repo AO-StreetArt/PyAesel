@@ -3,8 +3,17 @@
 Installing PyAesel
 ==================
 
-Building from Source
---------------------
+Installing with pip
+-------------------
+
+To install the latest build from pip:
+
+.. code-block:: bash
+
+   pip install --user python-aesel-client
+
+Using Development Versions
+--------------------------
 
 PyAesel requires Python and pip installed, and all other dependencies can be
 installed from the root project directory with:
@@ -13,13 +22,10 @@ installed from the root project directory with:
 
    pip install --user -r requirements.txt
 
-If desired, you can run the tests (require a running Aesel server on localhost):
+Finally, you can use pip to install the library locally:
 
 .. code-block:: bash
 
-   python -m pytest
-
-Finally, drop the 'aesel' folder anywhere on your Python Path to start using it!
-
+   pip install --user .
 
 :ref:`Go Home <index>`

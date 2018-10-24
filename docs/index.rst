@@ -10,6 +10,7 @@ Site Contents
 
    pages/install.rst
    pages/quickstart.rst
+   pages/dev_notes.rst
 
 API Documentation
 =================
