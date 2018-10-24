@@ -2,14 +2,14 @@
 
 .. include:: ../README.rst
 
+Site Contents
+=============
+
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
 
    pages/install.rst
    pages/quickstart.rst
-
-
 
 API Documentation
 =================

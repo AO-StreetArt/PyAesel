@@ -19,7 +19,7 @@ If desired, you can run the tests (require a running Aesel server on localhost):
 
    python -m pytest
 
-Finally, drop the library anywhere on your Python Path to start using it!
+Finally, drop the 'aesel' folder anywhere on your Python Path to start using it!
 
 
 :ref:`Go Home <index>`
