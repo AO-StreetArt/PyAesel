@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""The Main Client for generating Aesel Events"""
+
 """
 Apache2 License Notice
 Copyright 2018 Alex Barry
@@ -24,16 +26,17 @@ from aesel.model.AeselProperty import AeselProperty
 import socket
 
 class AeselEventClient(object):
-    """The Main Client for generating Aesel Events"""
-    def __init__(self, host, port, encryption_key=None, encryption_iv=None):
-        """
-        Initialize the Client.
+    """
+    Initializing the event client requires a UDP address to send events to, and
+    may also take encryption information.  This information is typically 
+    retrieved dynamically from Aesel Servers during Registration to a Scene.
 
-        :param str host: The host to send the message to.
-        :param port: The port to send the message to.
-        :param str encryption_key: AES-256-cbc encryption key to use for outgoing UDP messages.
-        :param str encryption_iv: AES-256-cbc encryption IV to use for outgoing UDP messages.
-        """
+    :param str host: The host to send the message to.
+    :param port: The port to send the message to.
+    :param str encryption_key: AES-256-cbc encryption key to use for outgoing UDP messages.
+    :param str encryption_iv: AES-256-cbc encryption IV to use for outgoing UDP messages.
+    """
+    def __init__(self, host, port, encryption_key=None, encryption_iv=None):
         self.socket = None
         self.host = None
         self.port = None

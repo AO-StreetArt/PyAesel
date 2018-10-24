@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""The Main Client for accessing Aesel Operations"""
+
 """
 Apache2 License Notice
 Copyright 2018 Alex Barry
@@ -27,9 +29,13 @@ from aesel.model.AeselUserDevice import AeselUserDevice
 import requests
 
 class AeselTransactionClient(object):
-    """The Main Client for accessing Aesel Operations"""
+    """
+    Initializing the Transaction Client just requires the HTTP(s) address
+    which it can use to communicate with the Aesel server.
+
+    :param str aesel_url: The address of the Aesel servers.
+    """
     def __init__(self, aesel_url):
-        """Initialize the Client"""
         self.aesel_addr = aesel_url
         self.api_version = 'v1'
 
