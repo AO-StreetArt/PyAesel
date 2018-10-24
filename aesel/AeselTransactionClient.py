@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-"""The Main Client for accessing Aesel Operations"""
+"""
+The Main Client for accessing all
+`HTTP Operations in the Aesel API <https://aesel.readthedocs.io/en/latest/pages/DVS_API.html>`__.
+"""
 
 """
 Apache2 License Notice

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-"""The Main Client for generating Aesel Events"""
+"""The Main Client for generating `Aesel Events <https://aesel.readthedocs.io/en/latest/pages/Object_Stream_API.html>`__"""
 
 """
 Apache2 License Notice
@@ -28,7 +28,7 @@ import socket
 class AeselEventClient(object):
     """
     Initializing the event client requires a UDP address to send events to, and
-    may also take encryption information.  This information is typically 
+    may also take encryption information.  This information is typically
     retrieved dynamically from Aesel Servers during Registration to a Scene.
 
     :param str host: The host to send the message to.
