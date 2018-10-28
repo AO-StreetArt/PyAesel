@@ -65,8 +65,20 @@ class AeselTransactionClient(object):
     # ------------------End User API Methods----------------------------
 
     def set_auth_info(self, auth_token):
-        """Set the authentication token to be used on Requests"""
-        s.headers.update({"Authorization": "Bearer %s" % auth_token})
+        """
+        Set the authentication token to be used on Requests
+
+        :param str auth_token: The value of the auth token to use on requests
+        """
+        self.http_session.headers.update({"Authorization": "Bearer %s" % auth_token})
+
+    def set_cookie(self, cookie):
+        """
+        Set the cookies contained in the Transaction sessions.
+
+        :param cookie: A CookieJar object containing user cookies.
+        """
+        self.http_session.cookies = cookie
 
     # -------------
     # Asset Methods
