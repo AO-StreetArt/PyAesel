@@ -80,6 +80,14 @@ class AeselTransactionClient(object):
         """
         self.http_session.cookies = cookie
 
+    def set_cookie_header(self, cookie):
+        """
+        Set the cookies contained in the Transaction sessions.
+
+        :param cookie: A CookieJar object containing user cookies.
+        """
+        self.http_session.headers.update({"Cookie": "%s" % cookie})
+
     # -------------
     # Asset Methods
     # -------------
