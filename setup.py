@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='python_aesel_client',
-      version='0.2',
+      version='0.3',
       description='Python Aesel Client',
       url='https://github.com/AO-StreetArt/PyAesel',
       author='AO Street Art',

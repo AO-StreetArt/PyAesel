@@ -36,7 +36,6 @@ Then, the following commands will generate the distribution:
 
    pip install --user twine
    python setup.py sdist bdist_wheel
-   twine register dist/python_aesel_client-0.1-py3-none-any.whl
    twine upload dist/*
 
 :ref:`Go Home <index>`
