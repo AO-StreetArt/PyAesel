@@ -4,9 +4,9 @@
 """
 Asset Metadata is stored as part of an Asset, and can be queried separately.
 
-:ivar content_type: The HTTP Content Type to store instead of multipart
-:ivar file_type: The File Extension of the uploaded file
-:ivar asset_type: The type of asset being stored (defaults to "standard")
+:content_type: The HTTP Content Type to store instead of multipart
+:file_type: The File Extension of the uploaded file
+:asset_type: The type of asset being stored (defaults to "standard")
 """
 
 """
