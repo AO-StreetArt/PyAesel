@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
+Asset Metadata is stored as part of an Asset, and can be queried separately.
+"""
+
+"""
 Apache2 License Notice
 Copyright 2018 Alex Barry
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +22,10 @@ limitations under the License.
 import copy
 
 class AeselAssetMetadata(object):
-    """
-    Data Model for Assets.
-    """
-    content_type = None
-    file_type = None
-    asset_type = None
     def __init__(self):
-        self.content_type = None
-        self.file_type = None
-        self.asset_type = None
+        self.content_type = None #: The HTTP Content Type to store instead of multipart
+        self.file_type = None #: The File Extension of the uploaded file
+        self.asset_type = None #: The type of asset
 
     def to_dict(self):
         return copy.deepcopy(vars(self))
