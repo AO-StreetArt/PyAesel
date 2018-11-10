@@ -33,5 +33,4 @@ Module contents
 
 .. automodule:: aesel
     :members:
-    :undoc-members:
     :show-inheritance:

@@ -253,7 +253,7 @@ class AeselTransactionClient(object):
         """
         Query for asset relationships.
 
-        :param str query: The AeselAssetRelationship to use as a query.
+        :param query: The AeselAssetRelationship to use as a query.
         :return: JSON with a list of found asset relationships, including keys.
         """
         query_params = {}
