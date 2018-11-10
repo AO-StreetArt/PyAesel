@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
+Data Model for Renderable Object.
+"""
+
+"""
 Apache2 License Notice
 Copyright 2018 Alex Barry
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +23,6 @@ import copy
 import json
 
 class AeselObject(object):
-    """
-    Data Model for Renderable Object.
-    """
     def __init__(self):
         self.key = None
         self.name = None

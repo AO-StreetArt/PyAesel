@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
+Data Model for an animatable Property.
+"""
+
+"""
 Apache2 License Notice
 Copyright 2018 Alex Barry
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +20,6 @@ limitations under the License.
 """
 
 class AeselPropertyValue(object):
-    """
-    Data Model for Renderable Object.
-    """
     def __init__(self):
         self.value = None
         self.left_type = None

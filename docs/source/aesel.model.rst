@@ -23,7 +23,6 @@ aesel.model.AeselDataList module
 
 .. automodule:: aesel.model.AeselDataList
     :members:
-    :undoc-members:
     :show-inheritance:
 
 aesel.model.AeselGraphHandle module
@@ -31,7 +30,6 @@ aesel.model.AeselGraphHandle module
 
 .. automodule:: aesel.model.AeselGraphHandle
     :members:
-    :undoc-members:
     :show-inheritance:
 
 aesel.model.AeselObject module
@@ -82,5 +80,4 @@ Module contents
 
 .. automodule:: aesel.model
     :members:
-    :undoc-members:
     :show-inheritance:

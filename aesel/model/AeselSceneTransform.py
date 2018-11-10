@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
+Data Model for Scene Transform.
+"""
+
+"""
 Apache2 License Notice
 Copyright 2018 Alex Barry
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +20,6 @@ limitations under the License.
 """
 
 class AeselSceneTransform(object):
-    """
-    Data Model for Scene Transform.
-    """
     def __init__(self):
         self.translation = []
         self.rotation = []

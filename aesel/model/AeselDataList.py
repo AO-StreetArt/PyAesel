@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
+Message List, outer wrapper for Object, Scene, and Property messages.
+"""
+
+"""
 Apache2 License Notice
 Copyright 2018 Alex Barry
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +22,6 @@ limitations under the License.
 import copy
 
 class AeselDataList(object):
-    """
-    Message List, outer wrapper for Object, Scene, and Property messages.
-    """
     def __init__(self):
         self.num_records = None
         self.start_record = None
