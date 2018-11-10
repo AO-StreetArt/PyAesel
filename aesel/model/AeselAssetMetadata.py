@@ -21,6 +21,9 @@ class AeselAssetMetadata(object):
     """
     Data Model for Assets.
     """
+    content_type = None
+    file_type = None
+    asset_type = None
     def __init__(self):
         self.content_type = None
         self.file_type = None
