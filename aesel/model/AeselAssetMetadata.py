@@ -3,6 +3,10 @@
 
 """
 Asset Metadata is stored as part of an Asset, and can be queried separately.
+
+:ivar content_type: The HTTP Content Type to store instead of multipart
+:ivar file_type: The File Extension of the uploaded file
+:ivar asset_type: The type of asset being stored (defaults to "standard")
 """
 
 """
@@ -23,9 +27,9 @@ import copy
 
 class AeselAssetMetadata(object):
     def __init__(self):
-        self.content_type = None #: The HTTP Content Type to store instead of multipart
-        self.file_type = None #: The File Extension of the uploaded file
-        self.asset_type = None #: The type of asset
+        self.content_type = None
+        self.file_type = None
+        self.asset_type = None
 
     def to_dict(self):
         return copy.deepcopy(vars(self))

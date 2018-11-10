@@ -100,7 +100,8 @@ html_theme_options = {
     # an arbitrary url.
     'navbar_links': [
         ("Install", "pages/install"),
-        ("Getting Started", "pages/quickstart")
+        ("Getting Started", "pages/quickstart"),
+        ("API Documentation", "source/modules")
     ],
 
     # Render the next and previous page links in navbar. (Default: true)
