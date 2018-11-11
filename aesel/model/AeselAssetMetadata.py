@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
+An asset is a resource that each device will need in order to accurately depict
+objects around it. This can vary, from an .obj file, containing mesh information,
+to a .glsl file, containing shader information, to a .png or .jpg file containing
+an image. Assets can either be associated to a Scene or an Object.
+
 Asset Metadata is stored as part of an Asset, and can be queried separately.
 
 :content_type: The HTTP Content Type to store instead of multipart

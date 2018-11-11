@@ -2,7 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for an animatable Property.
+A Property can have between one and four values, each of which can also contain
+it's own graph handles.
+
+:value: The float value of the PropertyValue.
+:left_type: The type of the left graph handle.
+:left_x: The x-value of the left graph handle.
+:left_y: The y-value of the left graph handle.
+:right_type: The type of the right graph handle.
+:right_x: The x-value of the right graph handle.
+:right_y: The y-value of the right graph handle.
 """
 
 """

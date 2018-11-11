@@ -2,7 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for Asset Relationship.
+n Asset Relationship is a link between an asset and any other data entity which
+is identifiable by a unique ID. Each relationship contains an Asset ID and a
+Related ID, as well as a Relationship Type. These are used to model relationships
+with both external sources (such as Scenes and Objects), and between assets
+(such as having one Asset be the thumbnail of another).
+
+:asset: The ID of the Asset specified in the Relationship.
+:related: The ID of the Related entity in the Relationship.
+:type: The type of Relationship (ie. "scene", "property", "object", etc).
 """
 
 """

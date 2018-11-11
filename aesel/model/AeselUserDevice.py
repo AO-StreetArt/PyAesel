@@ -2,7 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for User Device.
+A User Device represents the final end-user of Aesel, and is always bound to
+a computer, phone, or other piece of physical hardware.  These devices are
+expected to send and recieve UDP messages (Events) from the Aesel servers.
+
+:key: The Unique Identifier of the device.
+:hostname: The hostname of the device.
+:port: The port of the device.
+:connection_string: The full URL of the device.
+:transform: An AeselSceneTransform which can be passed in during Registration flows.
 """
 
 """

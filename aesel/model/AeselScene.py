@@ -2,7 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for Scene.
+A Scene is a group of Objects associated to a particular Latitude and Longitude.
+Examples of Scenes include levels in a video game, rooms in a house, and shots
+in a movie.
+
+:key: The Unique ID of the Scene.
+:name: The Name of the Scene.
+:region: The Region of the Scene (ie. 'us-md').
+:latitude: The latitude of the Scene (for use in AR applications).
+:longitude: The longitude of the Scene (for use in AR applications).
+:distance: In scene queries, this can be used with lat/long to find scenes near a particular point.
+:tags: A list of string tags, which will be saved with the scene and can be searched.
+:devices: A list of AeselUserDevice's, this is typically populated during registration flows.
 """
 
 """
@@ -28,6 +39,7 @@ class AeselScene(object):
         self.region = None
         self.latitude = None
         self.longitude = None
+        self.distance = None
         self.tags = []
         self.devices = []
 

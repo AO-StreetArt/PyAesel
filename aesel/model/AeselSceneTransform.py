@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for Scene Transform.
+A Scene Transform represents the transformation needed to move between two scenes,
+or between a scene and the local coordinate system of a device.
+
+:translation: A List of 3 floats, [x,y,z], which represent the translation.
+:rotation: A list of 3 floats, [x,y,z], which represent the euler rotation.
 """
 
 """

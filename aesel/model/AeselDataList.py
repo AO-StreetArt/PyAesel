@@ -3,6 +3,8 @@
 
 """
 Message List, outer wrapper for Object, Scene, and Property messages.
+
+Generally not used directly by client applications.
 """
 
 """

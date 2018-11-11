@@ -2,7 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for an animatable Graph Handle.
+Typical animation is done by manipulating keyframes, and then adjust the
+movement graphs generated in order to get exactly the animation desired.
+
+A Graph Handle allows replication of not just the keyframes, but also the
+interpolated graphs in-between them.
+
+:left_type: The type of the left graph handle.
+:left_x: The x-value of the left graph handle.
+:left_y: The y-value of the left graph handle.
+:right_type: The type of the right graph handle.
+:right_x: The x-value of the right graph handle.
+:right_y: The y-value of the right graph handle.
 """
 
 """

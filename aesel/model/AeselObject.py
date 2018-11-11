@@ -2,7 +2,30 @@
 # -*- coding: utf-8 -*-
 
 """
-Data Model for Renderable Object.
+An Object is represented by a transformation matrix representing it’s position
+in 3-space, as well as a collection of Assets (Mesh files, Texture files,
+Shader scripts, etc.). Objects are meant to be interacted with by individual
+devices, and these changes will be streamed to all devices via the
+Event API. This API exposes CRUD and Query operations for Objects.
+
+Objects may also have a frame/timestamp, as well as animation graph handles.
+Both of these are, however, optional.
+
+:key: The Unique ID of the Object, assigned by Aesel.
+:name: The Name of the Object.
+:scene: The ID of the Scene which contains the Object.
+:type: The type of the object (ie. "mesh", "curve", etc).
+:subtype: The subtype of the object (ie. "cube", "sphere", etc).
+:frame: The integer frame of the object
+:timestamp: The integer timestamp of the object (in ms since the Unix Epoch).
+:transform: The transformation matrix of the object, in a single array.  The first four elements make up the first row of the matrix, and this pattern continues.
+:translation: An array of 3 floats, for the translation of the object (ie. [x,y,z]).
+:euler_rotation: An array of 3 floats, for the euler rotation of the object (ie. [x,y,z]).
+:quaternion_rotation: An array of 4 floats, for the quaternion rotation of the object (ie. [w,x,y,z]).
+:scale: An array of 3 floats, for the scale of the object (ie. [x,y,z]).
+:translation_handle: An array of AnimationGraphHandle's which correspond to the [x,y,z] values in the translation array.
+:rotation_handle: An array of 4 AnimationGraphHandle's which correspond to the [w,x,y,z] values in the rotation arrays.
+:scale_handle: An array of 3 AnimationGraphHandle's which correspond to the [x,y,z] values in the scale array.
 """
 
 """
