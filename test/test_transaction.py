@@ -16,6 +16,7 @@ limitations under the License.
 
 import pytest
 
+from aesel.model.AeselApplicationUser import AeselApplicationUser
 from aesel.model.AeselAssetMetadata import AeselAssetMetadata
 from aesel.model.AeselAssetRelationship import AeselAssetRelationship
 from aesel.model.AeselGraphHandle import AeselGraphHandle
@@ -31,6 +32,204 @@ from aesel.AeselTransactionClient import AeselTransactionClient
 @pytest.fixture
 def transaction_client():
     return AeselTransactionClient("http://localhost:8080")
+
+# Execute tests on the Users API
+def test_user_api(transaction_client):
+    print("Testing Users API")
+    # Create a User
+    print("Create User")
+    user = AeselApplicationUser()
+    user.username = "test"
+    user.password = "password"
+    user.email = "test@test.com"
+    user.is_admin = False
+    user.is_active = True
+    user.favorite_projects = ["1"]
+    user.favorite_scenes = ["2"]
+    user_crt_resp = None
+    try:
+        user_crt_resp = transaction_client.create_user(user)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(user_crt_resp)
+    new_key = user_crt_resp['id']
+
+    # Get a User
+    print("Get User")
+    user_get_resp = None
+    try:
+        user_get_resp = transaction_client.get_user(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(user_get_resp)
+
+    # Update a User
+    print("Update User")
+    user_upd = AeselProject()
+    user_upd.email = "cat3@test.com"
+    user_upd_resp = None
+    try:
+        user_upd_resp = transaction_client.update_user(new_key, user_upd)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(user_upd_resp)
+
+    # Query for the updated User
+    print("Query Users")
+    try:
+        user_query_resp = transaction_client.user_query(new_key, email="cat3@test.com")
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(user_query_resp)
+
+    # Delete a User
+    print("Delete User")
+    user_del_resp = None
+    try:
+        user_del_resp = transaction_client.delete_user(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(user_del_resp)
+
+# Execute tests on the Projects API
+def test_project_api(transaction_client):
+    print("Testing Project API")
+    # Create a Project
+    print("Create Project")
+    project = AeselProject()
+    project.name = "test"
+    project.description = "test description"
+    project.category = "cat"
+    project.tags = ["demo"]
+    group = AeselSceneGroup()
+    group.name = "groupName"
+    group.description = "group description"
+    group.category = "cat2"
+    group.scenes = ["1"]
+    project.sceneGroups = [group]
+    project.assetCollectionIds = ["2"]
+    proj_crt_resp = None
+    try:
+        proj_crt_resp = transaction_client.create_project(project)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(proj_crt_resp)
+    new_key = proj_crt_resp['key']
+
+    # Get a Project
+    print("Get Project")
+    proj_get_resp = None
+    try:
+        proj_get_resp = transaction_client.get_project(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(proj_get_resp)
+
+    # Update a Project
+    print("Update Project")
+    proj_upd = AeselProject()
+    proj_upd.category = "cat3"
+    proj_upd_resp = None
+    try:
+        proj_upd_resp = transaction_client.update_project(new_key, proj_upd)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(proj_upd_resp)
+
+    # Query for the updated Project
+    print("Query Projects")
+    proj_query = AeselProject()
+    proj_query.category = "cat3"
+    proj_query_resp = None
+    try:
+        proj_query_resp = transaction_client.project_query(new_key, proj_query)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(proj_query_resp)
+    assert(len(proj_query_resp) > 0)
+
+    # Delete a Project
+    print("Delete Project")
+    proj_del_resp = None
+    try:
+        proj_del_resp = transaction_client.delete_project(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(proj_del_resp)
+
+# Execute tests on the Asset Collections API
+def test_collection_api(transaction_client):
+    print("Testing Asset Collection API")
+    # Create an Asset Collection
+    print("Create Asset Collection")
+    coll = AeselAssetCollection()
+    coll.name = "test"
+    coll.description = "test description"
+    coll.category = "cat"
+    coll.tags = ["demo"]
+    coll_crt_resp = None
+    try:
+        coll_crt_resp = transaction_client.create_asset_collection(coll)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_crt_resp)
+    new_key = coll_crt_resp['key']
+
+    # Get an Asset Collection
+    print("Get Asset Collection")
+    coll_get_resp = None
+    try:
+        coll_get_resp = transaction_client.get_asset_collection(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_get_resp)
+
+    # Update an Asset Collection
+    print("Update Asset Collection")
+    coll_upd = AeselAssetCollection()
+    coll_upd.category = "cat3"
+    coll_upd_resp = None
+    try:
+        coll_upd_resp = transaction_client.update_asset_collection(new_key, coll_upd)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_upd_resp)
+
+    # Query for the updated Asset Collection
+    print("Query Asset Collection")
+    coll_query = AeselAssetCollection()
+    coll_query.category = "cat3"
+    coll_query_resp = None
+    try:
+        coll_query_resp = transaction_client.asset_collection_query(new_key, coll_query)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_query_resp)
+    assert(len(coll_query_resp) > 0)
+
+    # Delete a Asset Collection
+    print("Delete Asset Collection")
+    coll_del_resp = None
+    try:
+        coll_del_resp = transaction_client.delete_asset_collection(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_del_resp)
 
 # Execute tests on the Scene API
 def test_scene_api(transaction_client):

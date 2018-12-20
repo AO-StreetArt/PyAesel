@@ -64,6 +64,100 @@ class AeselTransactionClient(object):
 
     # ------------------End User API Methods----------------------------
 
+    # ------------------------------
+    # Authentication & Users methods
+    # ------------------------------
+
+    def login(self, username, password):
+        """
+        Login to the Aesel server, storing the Authentication header from
+        the response as a bearer token for future requests.
+
+        :param str username: The username with which to login
+        :param str password: The password with which to login
+        """
+        r = self.http_session.post(self.aesel_addr + "/login", json={"username": username, "password": password})
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Add a header to the session with the returned auth token
+        auth_token = r.headers['authorization']
+        self.http_session.headers.update({"Authorization": "%s" % auth_token})
+
+    def create_user(self, user):
+        """
+        Create a new user in the Aesel server.  Note that this will only be
+        processed successfully if the logged-in user calling it is an administrator.
+
+        :param user: The user to create
+        """
+        r = self.http_session.post(self.aesel_addr + "/users/sign-up", json=user.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def user_query(self, username="", email=""):
+        """
+        Get an existing User from Aesel by Username or Email
+
+        :param str username: The username to search for
+        :param str email: The email to search for
+        """
+        query_params = {}
+        if username != "":
+            query_params["username"] = username
+        elif email != "":
+            query_params["email"] = email
+        r = self.http_session.get(self.aesel_addr + "/users/", params=query_params)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def get_user(self, key):
+        """
+        Get an existing User from Aesel by Key
+
+        :param str key: The username for the user
+        """
+        r = self.http_session.get(self.aesel_addr + "/users/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def update_user(self, key, user):
+        """
+        Update an existing user in the Aesel server.
+
+        :param user: The user to create
+        """
+        user.key = key
+        r = self.http_session.put(self.aesel_addr + "/users/" + key, json=user.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def delete_user(self, key):
+        """
+        Delete an existing User from Aesel by Key.
+
+        :param str key: The username for the user
+        """
+        r = self.http_session.delete(self.aesel_addr + "/users/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
     def set_auth_info(self, auth_token):
         """
         Set the authentication token to be used on Requests
@@ -84,9 +178,173 @@ class AeselTransactionClient(object):
         """
         Set the cookies contained in the Transaction sessions.
 
-        :param cookie: A CookieJar object containing user cookies.
+        :param cookie: The text value of the desired Cookie header.
         """
         self.http_session.headers.update({"Cookie": "%s" % cookie})
+
+    # ---------------
+    # Project Methods
+    # ---------------
+
+    def create_project(self, project):
+        """
+        Create a new project in the Aesel server.
+
+        :param project: AeselProject to be created.
+        """
+        r = self.http_session.post(self.gen_base_url() + "/project", json=project.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def update_project(self, key, project):
+        """
+        Update an existing project in the Aesel server.
+
+        :param str key: The key of the AeselProject to be updated.
+        :param project: AeselProject to be updated.
+        """
+        r = self.http_session.post(self.gen_base_url() + "/project" + key, json=project.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def get_project(self, key):
+        """
+        Get a project from the Aesel server by key.
+
+        :param str key: The key of the AeselProject to be retrieved.
+        """
+        r = self.http_session.get(self.gen_base_url() + "/project/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def delete_project(self, key):
+        """
+        Delete a project from the Aesel server by key.
+
+        :param str key: The key of the AeselProject to be deleted.
+        """
+        r = self.http_session.delete(self.gen_base_url() + "/project/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def project_query(self, project, num_records=10, page=0):
+        """
+        Query projects from the Aesel server.
+
+        :param project: The AeselProject to be used as a match query.
+        :param num_records: The maximum number of records to return in the query.
+        :param page: The page number of records to return, with num_records as the page size.
+        """
+        query_params = {"num_records": num_records, "page": page}
+        if project.name is not None:
+            query_params["name"] = project.name
+        if project.description is not None:
+            query_params["description"] = project.description
+        if project.category is not None:
+            query_params["category"] = project.category
+        if len(project.tags) > 0:
+            query_params["tags"] = project.tags
+
+        r = self.http_session.get(self.gen_base_url() + "/project/" + key, params=query_params)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    # ------------------------
+    # Asset Collection Methods
+    # ------------------------
+
+    def create_asset_collection(self, collection):
+        """
+        Create a new Asset Collection in the Aesel server.
+
+        :param collection: AeselAssetCollection to be created.
+        """
+        r = self.http_session.post(self.gen_base_url() + "/collection", json=collection.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def update_asset_collection(self, key, project):
+        """
+        Update an existing Asset Collection in the Aesel server.
+
+        :param str key: The key of the AeselAssetCollection to be updated.
+        :param collection: AeselAssetCollection to be updated.
+        """
+        r = self.http_session.post(self.gen_base_url() + "/collection" + key, json=collection.to_dict())
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def get_asset_collection(self, key):
+        """
+        Get an Asset Collection from the Aesel server by key.
+
+        :param str key: The key of the AeselAssetCollection to be retrieved.
+        """
+        r = self.http_session.get(self.gen_base_url() + "/collection/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def delete_asset_collection(self, key):
+        """
+        Delete an Asset Collection from the Aesel server by key.
+
+        :param str key: The key of the AeselAssetCollection to be deleted.
+        """
+        r = self.http_session.delete(self.gen_base_url() + "/collection/" + key)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
+
+    def asset_collection_query(self, collection, num_records=10, page=0):
+        """
+        Query Asset Collections from the Aesel server.
+
+        :param collection: The AeselAssetCollection to be used as a match query.
+        :param num_records: The maximum number of records to return in the query.
+        :param page: The page number of records to return, with num_records as the page size.
+        """
+        query_params = {"num_records": num_records, "page": page}
+        if collection.name is not None:
+            query_params["name"] = collection.name
+        if collection.description is not None:
+            query_params["description"] = collection.description
+        if collection.category is not None:
+            query_params["category"] = collection.category
+        if len(collection.tags) > 0:
+            query_params["tags"] = collection.tags
+
+        r = self.http_session.get(self.gen_base_url() + "/collection", params=query_params)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        return r.json()
 
     # -------------
     # Asset Methods
