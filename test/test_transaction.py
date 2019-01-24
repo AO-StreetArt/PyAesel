@@ -85,6 +85,71 @@ def test_user_api(transaction_client):
         print(e)
         assert(False)
     print(user_query_resp)
+    assert(len(user_query_resp) > 0)
+
+    # Add a favorite project
+    print("Add a favorite project")
+    try:
+        transaction_client.add_favorite_project(new_key, "123")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Add a favorite scene
+    print("Add a favorite scene")
+    try:
+        transaction_client.add_favorite_scene(new_key, "abc")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Remove a favorite project
+    print("Removing a favorite project")
+    try:
+        transaction_client.remove_favorite_project(new_key, "123")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Remove a favorite scene
+    print("Removing a favorite scene")
+    try:
+        transaction_client.remove_favorite_scene(new_key, "abc")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Make user an admin
+    print("Making user an administrator")
+    try:
+        transaction_client.make_user_admin(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Make user an non-admin
+    print("Making user a non-administrator")
+    try:
+        transaction_client.remove_admin_rights(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Deactivating user
+    print("Deactivating User")
+    try:
+        transaction_client.deactivate_user(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Activate User
+    print("Activating User")
+    try:
+        transaction_client.activate_user(new_key)
+    except Exception as e:
+        print(e)
+        assert(False)
 
     # Delete a User
     print("Delete User")
@@ -157,6 +222,53 @@ def test_project_api(transaction_client):
     print(proj_query_resp)
     assert(len(proj_query_resp) > 0)
 
+    # Add a new Scene Group
+    print("Add a new Scene Group")
+    new_scn_group = AeselSceneGroup()
+    new_scn_group.name = "anotherTestGroup"
+    new_scn_group.description = "this is a test group"
+    new_scn_group.category = "test"
+    try:
+        transaction_client.add_scene_group(new_key, new_scn_group)
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Update the Scene Group
+    print("Update a Scene Group")
+    new_scn_group = AeselSceneGroup()
+    new_scn_group.description = "a new test description"
+    new_scn_group.category = "test2"
+    try:
+        transaction_client.update_scene_group(new_key, new_scn_group)
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Add a Scene to the Scene Group
+    print("Add a Scene to a Scene Group")
+    try:
+        transaction_client.add_scene_to_scene_group(new_key, "anotherTestGroup", "testScene")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Remove a Scene from the Scene Group
+    print("Remove a Scene from a Scene Group")
+    try:
+        transaction_client.remove_scene_from_scene_group(new_key, "anotherTestGroup", "testScene")
+    except Exception as e:
+        print(e)
+        assert(False)
+
+    # Remove the Scene Group
+    print("Remove a Scene Group")
+    try:
+        transaction_client.delete_scene_group(new_key, "anotherTestGroup")
+    except Exception as e:
+        print(e)
+        assert(False)
+
     # Delete a Project
     print("Delete Project")
     proj_del_resp = None
@@ -220,6 +332,16 @@ def test_collection_api(transaction_client):
         assert(False)
     print(coll_query_resp)
     assert(len(coll_query_resp) > 0)
+
+    # Get Asset Collections in bulk
+    print("Get Asset Collections in bulk")
+    try:
+        coll_bulk_resp = transaction_client.get_asset_collections([new_key])
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(coll_bulk_resp)
+    assert(len(coll_bulk_resp) > 0)
 
     # Delete a Asset Collection
     print("Delete Asset Collection")
@@ -566,6 +688,17 @@ def test_asset_api(transaction_client):
         assert(False)
     print(mquery_return)
     assert(mquery_return[0]["key"] == new_key)
+
+    # Query for the asset by ID in bulk
+    print("Asset Metadata Bulk Retrieve")
+    mbulk_return = None
+    try:
+        mbulk_return = transaction_client.bulk_query_asset_metadata([new_key])
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(mbulk_return)
+    assert(mbulk_return[0]["key"] == new_key)
 
     # Update an existing file with metadata
     print("Asset Update")
