@@ -38,6 +38,8 @@ class AeselAssetCollection(object):
         self.description = None
         self.category = None
         self.tags = []
+        self.isPublic = None
+        self.user = None
 
     def to_dict(self):
         return copy.deepcopy(vars(self))

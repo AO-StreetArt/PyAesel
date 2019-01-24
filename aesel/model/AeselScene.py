@@ -42,9 +42,12 @@ class AeselScene(object):
         self.distance = None
         self.tags = []
         self.devices = []
+        self.isPublic = None
+        self.user = None
 
     def to_dict(self):
         return_dict = copy.deepcopy(vars(self))
+        return_dict['public'] = self.isPublic
         return_dict['devices'] = []
         for device in self.devices:
             device_dict = vars(device)

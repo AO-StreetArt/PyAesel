@@ -34,8 +34,10 @@ import json
 
 class AeselSceneGroup(object):
     def __init__(self):
-        self.key = None
         self.name = None
         self.description = None
         self.category = None
         self.scenes = []
+
+    def to_dict(self):
+        return copy.deepcopy(vars(self))

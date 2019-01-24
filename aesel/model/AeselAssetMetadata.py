@@ -35,6 +35,8 @@ class AeselAssetMetadata(object):
         self.content_type = None
         self.file_type = None
         self.asset_type = None
+        self.isPublic = None
+        self.user = None
 
     def to_dict(self):
         return copy.deepcopy(vars(self))

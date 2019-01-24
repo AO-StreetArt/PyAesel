@@ -41,6 +41,8 @@ class AeselProject(object):
         self.tags = []
         self.sceneGroups = []
         self.assetCollectionIds = []
+        self.isPublic = None
+        self.user = None
 
     def to_dict(self):
         return_dict = copy.deepcopy(vars(self))
