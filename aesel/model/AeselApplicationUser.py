@@ -28,7 +28,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-class AeselUserDevice(object):
+class AeselApplicationUser(object):
     def __init__(self):
         self.key = None
         self.username = None
