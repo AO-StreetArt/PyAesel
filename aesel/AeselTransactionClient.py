@@ -176,7 +176,7 @@ class AeselTransactionClient(object):
         :param key: The key of the user to update
         :param project_key: The key of the scene to add to the favorites list
         """
-        r = self.http_session.put(self.aesel_addr + "/users/" + key + "/scenes/" + project_key)
+        r = self.http_session.put(self.aesel_addr + "/users/" + key + "/scenes/" + scene_key)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -294,8 +294,6 @@ class AeselTransactionClient(object):
 
         # Throw an error for bad responses
         r.raise_for_status()
-
-        return r.json()
 
     def add_scene_group(self, key, scene_group):
         """

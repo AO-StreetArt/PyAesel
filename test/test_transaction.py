@@ -299,7 +299,7 @@ def test_collection_api(transaction_client):
         print(e)
         assert(False)
     print(coll_crt_resp)
-    new_key = coll_crt_resp['key']
+    new_key = coll_crt_resp['id']
 
     # Get an Asset Collection
     print("Get Asset Collection")
