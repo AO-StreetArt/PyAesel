@@ -788,7 +788,7 @@ class AeselTransactionClient(object):
         data_list = AeselDataList()
         data_list.num_records = num_records
         data_list.start_record = start_record
-        data_list.data = scenes
+        data_list.data.extend(scenes)
         r = self.http_session.post(self.gen_base_url() + "/scene/query", json=data_list.to_dict("scenes"), allow_redirects=True)
 
         # Throw an error for bad responses

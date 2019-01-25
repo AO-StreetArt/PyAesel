@@ -83,7 +83,7 @@ def test_user_api(transaction_client):
     # Query for the updated User
     print("Query Users")
     try:
-        user_query_resp = transaction_client.user_query(new_key, email="cat3@test.com")
+        user_query_resp = transaction_client.user_query(email="cat3@test.com")
     except Exception as e:
         print(e)
         assert(False)
@@ -188,7 +188,7 @@ def test_project_api(transaction_client):
         print(e)
         assert(False)
     print(proj_crt_resp)
-    new_key = proj_crt_resp['key']
+    new_key = proj_crt_resp['id']
 
     # Get a Project
     print("Get Project")
