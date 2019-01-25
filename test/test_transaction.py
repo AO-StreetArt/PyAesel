@@ -18,9 +18,11 @@ import pytest
 
 from aesel.model.AeselApplicationUser import AeselApplicationUser
 from aesel.model.AeselAssetMetadata import AeselAssetMetadata
+from aesel.model.AeselAssetCollection import AeselAssetCollection
 from aesel.model.AeselAssetRelationship import AeselAssetRelationship
 from aesel.model.AeselGraphHandle import AeselGraphHandle
 from aesel.model.AeselObject import AeselObject
+from aesel.model.AeselProject import AeselProject
 from aesel.model.AeselProperty import AeselProperty
 from aesel.model.AeselPropertyValue import AeselPropertyValue
 from aesel.model.AeselScene import AeselScene

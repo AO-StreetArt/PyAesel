@@ -609,9 +609,6 @@ class AeselTransactionClient(object):
         :param keys: A list of Asset Keys to retrieve the metadata of.
         :return: JSON containing a list of Asset Metadata entries.
         """
-        # Set up query parameters
-        query_params = self.gen_asset_params(asset, None)
-
         # Send a get request
         r = self.http_session.post(self.gen_base_url() + "/bulk/asset", json={"ids": keys}, allow_redirects=True)
 
@@ -810,7 +807,7 @@ class AeselTransactionClient(object):
         :param start_record: The first record to retrieve.  Works with num_records to support pagination.
         :return: JSON with a list of found scenes.
         """
-        return bulk_scene_query([scene], num_records, start_record)
+        return self.bulk_scene_query([scene], num_records, start_record)
 
     def register(self, scene_key, device, transform=None):
         """
