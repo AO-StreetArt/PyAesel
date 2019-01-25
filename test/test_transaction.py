@@ -27,6 +27,7 @@ from aesel.model.AeselProperty import AeselProperty
 from aesel.model.AeselPropertyValue import AeselPropertyValue
 from aesel.model.AeselScene import AeselScene
 from aesel.model.AeselSceneTransform import AeselSceneTransform
+from aesel.model.AeselSceneGroup import AeselSceneGroup
 from aesel.model.AeselUserDevice import AeselUserDevice
 from aesel.AeselTransactionClient import AeselTransactionClient
 

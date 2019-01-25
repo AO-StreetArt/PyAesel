@@ -26,6 +26,7 @@ from aesel.model.AeselDataList import AeselDataList
 from aesel.model.AeselObject import AeselObject
 from aesel.model.AeselProperty import AeselProperty
 from aesel.model.AeselScene import AeselScene
+from aesel.model.AeselSceneGroup import AeselSceneGroup
 from aesel.model.AeselSceneTransform import AeselSceneTransform
 from aesel.model.AeselUserDevice import AeselUserDevice
 
@@ -143,8 +144,6 @@ class AeselTransactionClient(object):
 
         # Throw an error for bad responses
         r.raise_for_status()
-
-        return r.json()
 
     def add_favorite_project(self, key, project_key):
         """
