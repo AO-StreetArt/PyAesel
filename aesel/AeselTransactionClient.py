@@ -438,8 +438,6 @@ class AeselTransactionClient(object):
         # Throw an error for bad responses
         r.raise_for_status()
 
-        return r.json()
-
     def get_asset_collection(self, key):
         """
         Get an Asset Collection from the Aesel server by key.
@@ -459,7 +457,7 @@ class AeselTransactionClient(object):
 
         :param keys: A list of keys for the AeselAssetCollections to be retrieved.
         """
-        r = self.http_session.post(self.gen_base_url() + "/batch/collection", json={"ids": keys})
+        r = self.http_session.post(self.gen_base_url() + "/bulk/collection", json={"ids": keys})
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -476,8 +474,6 @@ class AeselTransactionClient(object):
 
         # Throw an error for bad responses
         r.raise_for_status()
-
-        return r.json()
 
     def asset_collection_query(self, collection, num_records=10, page=0):
         """

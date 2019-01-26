@@ -243,7 +243,7 @@ def test_project_api(transaction_client):
     new_scn_group.description = "a new test description"
     new_scn_group.category = "test2"
     try:
-        transaction_client.update_scene_group(new_key, new_scn_group)
+        transaction_client.update_scene_group(new_key, "anotherTestGroup", new_scn_group)
     except Exception as e:
         print(e)
         assert(False)
@@ -329,7 +329,7 @@ def test_collection_api(transaction_client):
     coll_query.category = "cat3"
     coll_query_resp = None
     try:
-        coll_query_resp = transaction_client.asset_collection_query(new_key, coll_query)
+        coll_query_resp = transaction_client.asset_collection_query(coll_query)
     except Exception as e:
         print(e)
         assert(False)
