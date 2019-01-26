@@ -382,8 +382,6 @@ class AeselTransactionClient(object):
         # Throw an error for bad responses
         r.raise_for_status()
 
-        return r.json()
-
     def project_query(self, project, num_records=10, page=0):
         """
         Query projects from the Aesel server.
