@@ -426,7 +426,7 @@ class AeselTransactionClient(object):
 
         return r.json()
 
-    def update_asset_collection(self, key, project):
+    def update_asset_collection(self, key, collection):
         """
         Update an existing Asset Collection in the Aesel server.
 

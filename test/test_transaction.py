@@ -218,7 +218,7 @@ def test_project_api(transaction_client):
     proj_query.category = "cat3"
     proj_query_resp = None
     try:
-        proj_query_resp = transaction_client.project_query(new_key, proj_query)
+        proj_query_resp = transaction_client.project_query(proj_query)
     except Exception as e:
         print(e)
         assert(False)
