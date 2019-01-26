@@ -188,7 +188,7 @@ class AeselTransactionClient(object):
         :param key: The key of the user to update
         :param scene_key: The key of the scene to remove from the favorites list
         """
-        r = self.http_session.delete(self.aesel_addr + "/users/" + key + "/scenes/" + project_key)
+        r = self.http_session.delete(self.aesel_addr + "/users/" + key + "/scenes/" + scene_key)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -402,7 +402,7 @@ class AeselTransactionClient(object):
         if len(project.tags) > 0:
             query_params["tags"] = project.tags
 
-        r = self.http_session.get(self.gen_base_url() + "/project/" + key, params=query_params)
+        r = self.http_session.get(self.gen_base_url() + "/project", params=query_params)
 
         # Throw an error for bad responses
         r.raise_for_status()
@@ -433,7 +433,7 @@ class AeselTransactionClient(object):
         :param str key: The key of the AeselAssetCollection to be updated.
         :param collection: AeselAssetCollection to be updated.
         """
-        r = self.http_session.post(self.gen_base_url() + "/collection" + key, json=collection.to_dict())
+        r = self.http_session.post(self.gen_base_url() + "/collection/" + key, json=collection.to_dict())
 
         # Throw an error for bad responses
         r.raise_for_status()
