@@ -45,10 +45,10 @@ def test_user_api(transaction_client):
     user.username = "test"
     user.password = "password"
     user.email = "test@test.com"
-    user.is_admin = False
-    user.is_active = True
-    user.favorite_projects = ["1"]
-    user.favorite_scenes = ["2"]
+    user.isAdmin = False
+    user.isActive = True
+    user.favoriteProjects = ["1"]
+    user.favoriteScenes = ["2"]
     user_crt_resp = None
     try:
         user_crt_resp = transaction_client.create_user(user)

@@ -36,10 +36,10 @@ class AeselApplicationUser(object):
         self.username = None
         self.password = None
         self.email = None
-        self.is_admin = False
-        self.is_active = True
-        self.favorite_projects = []
-        self.favorite_scenes = []
+        self.isAdmin = False
+        self.isActive = True
+        self.favoriteProjects = []
+        self.favoriteScenes = []
 
     def to_dict(self):
         return copy.deepcopy(vars(self))

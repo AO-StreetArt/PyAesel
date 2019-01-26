@@ -248,8 +248,6 @@ class AeselTransactionClient(object):
         # Throw an error for bad responses
         r.raise_for_status()
 
-        return r.json()
-
     def set_auth_info(self, auth_token):
         """
         Set the authentication token to be used on Requests
