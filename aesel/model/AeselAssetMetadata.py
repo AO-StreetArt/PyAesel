@@ -32,8 +32,9 @@ import copy
 
 class AeselAssetMetadata(object):
     def __init__(self):
-        self.content_type = None
+        self.name = None
         self.file_type = None
+        self.content_type = None
         self.asset_type = None
         self.isPublic = None
         self.user = None
