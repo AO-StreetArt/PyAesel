@@ -32,12 +32,16 @@ import copy
 class AeselAssetRelationship(object):
     def __init__(self):
         self.asset = None
+        self.asset_sub_id = None
         self.related = None
         self.type = None
+        self.subtype = None
 
     def to_dict(self):
         return {
                     "assetId": self.asset,
+                    "assetSubId": self.asset_sub_id,
                     "relationshipType": self.type,
+                    "relationshipSubtype": self.subtype,
                     "relatedId": self.related
                 }
