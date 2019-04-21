@@ -17,8 +17,8 @@ streamed out to registered devices.
 :scene: The ID of the Scene which contains the Property.
 :asset_sub_id: The ID of the Property within a parent asset.
 :frame: The integer frame of the Property.
-:timestamp: The integer timestamp of the Property (in ms since the Unix Epoch).
-:values: An array of AeselPropertyValue's.
+:actions: An array of AeselPropertyFrame instances.
+:values: An array of AeselPropertyValue instances.
 """
 
 """
@@ -46,15 +46,12 @@ class AeselProperty(object):
         self.asset_sub_id = None
         self.scene = None
         self.frame = None
-        self.timestamp = None
+        self.actions = []
         self.values = []
 
     def to_dict(self):
         return_dict = copy.deepcopy(vars(self))
-        return_dict['values'] = []
-        for val in self.values:
-            val_dict = vars(val)
-            return_dict['values'].append(val_dict)
+        return_dict["actions"] = [action.to_dict() for action in self.actions]
         return return_dict
 
     def to_transform_json(self):
@@ -64,9 +61,7 @@ class AeselProperty(object):
                     "name":self.name,
                     "frame":self.frame,
                     "scene":self.scene,
-                    "values": []
+                    "values": self.values
                     }
-        for val in self.values:
-            val_dict = vars(val)
-            msg_dict['values'].append(val_dict)
+        msg_dict["actions"] = [action.to_dict() for action in self.actions]
         return json.dumps(msg_dict)

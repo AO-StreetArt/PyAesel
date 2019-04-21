@@ -975,6 +975,128 @@ class AeselTransactionClient(object):
         # Return the json content of the response
         return r.json()
 
+    def create_object_action(self, scene_key, obj_key, action):
+        """
+        Create an Action against an existing Object.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the action to.
+        :param str action: The action to add to the Object
+        """
+        r = self.http_session.post("%s/scene/%s/object/%s/action" % (self.gen_base_url(),
+                                                                     scene_key,
+                                                                     obj_key),
+                                   json=action.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def update_object_action(self, scene_key, obj_key, action):
+        """
+        Update an Action against an existing Object.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the action to.
+        :param str action: The action to update in the Object.  The name of the action will be used to find the action to update.
+        """
+        r = self.http_session.post("%s/scene/%s/object/%s/action/%s" % (self.gen_base_url(),
+                                                                        scene_key,
+                                                                        obj_key,
+                                                                        action.name),
+                                   json=action.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def delete_object_action(self, scene_key, obj_key, action_name):
+        """
+        Delete an Action from an existing Object.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the action to.
+        :param str action_name: The name of the action to delete from the Object.
+        """
+        r = self.http_session.delete("%s/scene/%s/object/%s/action/%s" % (self.gen_base_url(),
+        scene_key,
+        obj_key,
+        action_name))
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def create_object_frame(self, scene_key, obj_key, action_name, frame):
+        """
+        Create an ObjectFrame against an existing Action.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the frame to.
+        :param str action_name: The action to add the frame to.
+        :param frame: The AeselObjectFrame to add to the action.
+        """
+        r = self.http_session.post("%s/scene/%s/object/%s/action/%s/keyframe" % (self.gen_base_url(),
+        scene_key,
+        obj_key,
+        action_name),
+        json=frame.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def update_object_frame(self, scene_key, obj_key, action_name, frame):
+        """
+        Update a Frame in an existing Action from an Object.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the action to.
+        :param str action_name: The action to update inside the Object.
+        :param frame: The AeselObjectFrame to update in the action.  The frame attribute from the ObjectFrame will be used to find the record to update.
+        """
+        r = self.http_session.post("%s/scene/%s/object/%s/action/%s/keyframe/%s" % (self.gen_base_url(),
+        scene_key,
+        obj_key,
+        action_name,
+        frame.frame),
+        json=frame.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def delete_object_frame(self, scene_key, obj_key, action_name, frame_index):
+        """
+        Delete an ObjectFrame from an existing Action.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselObject to add the action to.
+        :param str action_name: The name of the action to remove the Frame from.
+        :param str frame_index: The index of the keyframe to delete.
+        """
+        r = self.http_session.delete("%s/scene/%s/object/%s/action/%s/keyframe/%s" % (self.gen_base_url(),
+        scene_key,
+        obj_key,
+        action_name,
+        frame_index))
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
     def lock_object(self, scene_key, obj_key, device_key):
         """
         Lock an Object by key.
@@ -1089,6 +1211,128 @@ class AeselTransactionClient(object):
         data_list.num_records = num_records
         data_list.data.append(property)
         r = self.http_session.post(self.gen_base_url() + "/scene/" + scene_key + "/property/query", json=data_list.to_dict("properties"), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def create_property_action(self, scene_key, prop_key, action):
+        """
+        Create an Action against an existing property.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselProperty to add the action to.
+        :param str action: The action to add to the property.
+        """
+        r = self.http_session.post("%s/scene/%s/property/%s/action" % (self.gen_base_url(),
+                                                                       scene_key,
+                                                                       prop_key),
+                                   json=action.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def update_property_action(self, scene_key, prop_key, action):
+        """
+        Create an Action against an existing Property.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselProperty to add the action to.
+        :param str action: The action to update in the property.  The name of the action will be used to find the action to update.
+        """
+        r = self.http_session.post("%s/scene/%s/property/%s/action/%s" % (self.gen_base_url(),
+                                                                          scene_key,
+                                                                          prop_key,
+                                                                          action.name),
+                                   json=action.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def delete_property_action(self, scene_key, prop_key, action_name):
+        """
+        Delete an Action from an existing property.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str obj_key: The key of the AeselProperty to add the action to.
+        :param str action_name: The name of the action to delete from the property.
+        """
+        r = self.http_session.delete("%s/scene/%s/property/%s/action/%s" % (self.gen_base_url(),
+                                                                            scene_key,
+                                                                            prop_key,
+                                                                            action_name))
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def create_property_frame(self, scene_key, prop_key, action_name, frame):
+        """
+        Create a PropertyFrame against an existing Action.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str prop_key: The key of the AeselProperty to add the frame to.
+        :param str action_name: The action to add the frame to.
+        :param frame: The AeselPropertyFrame to add to the action.
+        """
+        r = self.http_session.post("%s/scene/%s/property/%s/action/%s/keyframe" % (self.gen_base_url(),
+                                                                                   scene_key,
+                                                                                   prop_key,
+                                                                                   action_name),
+                                   json=frame.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def update_property_frame(self, scene_key, prop_key, action_name, frame):
+        """
+        Update a Frame in an existing Action from a property.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str prop_key: The key of the AeselProperty to add the action to.
+        :param str action_name: The action to update inside the property.
+        :param frame: The AeselPropertyFrame to update in the action.  The frame attribute from the PropertyFrame will be used to find the record to update.
+        """
+        r = self.http_session.post("%s/scene/%s/property/%s/action/%s/keyframe/%s" % (self.gen_base_url(),
+                                                                                      scene_key,
+                                                                                      prop_key,
+                                                                                      action_name,
+                                                                                      frame.frame),
+                                   json=frame.to_dict(), allow_redirects=True)
+
+        # Throw an error for bad responses
+        r.raise_for_status()
+
+        # Return the json content of the response
+        return r.json()
+
+    def delete_property_frame(self, scene_key, prop_key, action_name, frame_index):
+        """
+        Delete a PropertyFrame from an existing Action.
+
+        :param str scene_key: The key of the AeselScene to find the object in.
+        :param str prop_key: The key of the AeselProperty to add the action to.
+        :param str action_name: The name of the action to remove the Frame from.
+        :param str frame_index: The index of the keyframe to delete.
+        """
+        r = self.http_session.delete("%s/scene/%s/property/%s/action/%s/keyframe/%s" % (self.gen_base_url(),
+                                                                                        scene_key,
+                                                                                        prop_key,
+                                                                                        action_name,
+                                                                                        frame_index))
 
         # Throw an error for bad responses
         r.raise_for_status()
