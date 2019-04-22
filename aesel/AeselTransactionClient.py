@@ -981,7 +981,7 @@ class AeselTransactionClient(object):
 
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str obj_key: The key of the AeselObject to add the action to.
-        :param str action: The action to add to the Object
+        :param action: The action to add to the Object
         """
         r = self.http_session.post("%s/scene/%s/object/%s/action" % (self.gen_base_url(),
                                                                      scene_key,
@@ -1000,7 +1000,7 @@ class AeselTransactionClient(object):
 
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str obj_key: The key of the AeselObject to add the action to.
-        :param str action: The action to update in the Object.  The name of the action will be used to find the action to update.
+        :param action: The action to update in the Object.  The name of the action will be used to find the action to update.
         """
         r = self.http_session.post("%s/scene/%s/object/%s/action/%s" % (self.gen_base_url(),
                                                                         scene_key,
@@ -1224,7 +1224,7 @@ class AeselTransactionClient(object):
 
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str obj_key: The key of the AeselProperty to add the action to.
-        :param str action: The action to add to the property.
+        :param action: The action to add to the property.
         """
         r = self.http_session.post("%s/scene/%s/property/%s/action" % (self.gen_base_url(),
                                                                        scene_key,
@@ -1243,7 +1243,7 @@ class AeselTransactionClient(object):
 
         :param str scene_key: The key of the AeselScene to find the object in.
         :param str obj_key: The key of the AeselProperty to add the action to.
-        :param str action: The action to update in the property.  The name of the action will be used to find the action to update.
+        :param action: The action to update in the property.  The name of the action will be used to find the action to update.
         """
         r = self.http_session.post("%s/scene/%s/property/%s/action/%s" % (self.gen_base_url(),
                                                                           scene_key,
