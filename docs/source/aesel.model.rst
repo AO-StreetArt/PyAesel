@@ -4,6 +4,27 @@ aesel.model package
 Submodules
 ----------
 
+aesel.model.AeselAction module
+------------------------------
+
+.. automodule:: aesel.model.AeselAction
+    :members:
+    :show-inheritance:
+
+aesel.model.AeselApplicationUser module
+---------------------------------------
+
+.. automodule:: aesel.model.AeselApplicationUser
+    :members:
+    :show-inheritance:
+
+aesel.model.AeselAssetCollection module
+---------------------------------------
+
+.. automodule:: aesel.model.AeselAssetCollection
+    :members:
+    :show-inheritance:
+
 aesel.model.AeselAssetMetadata module
 -------------------------------------
 
@@ -39,10 +60,24 @@ aesel.model.AeselObject module
     :members:
     :show-inheritance:
 
+aesel.model.AeselObjectFrame module
+-----------------------------------
+
+.. automodule:: aesel.model.AeselObjectFrame
+    :members:
+    :show-inheritance:
+
 aesel.model.AeselProperty module
 --------------------------------
 
 .. automodule:: aesel.model.AeselProperty
+    :members:
+    :show-inheritance:
+
+aesel.model.AeselPropertyFrame module
+-------------------------------------
+
+.. automodule:: aesel.model.AeselPropertyFrame
     :members:
     :show-inheritance:
 
@@ -57,6 +92,13 @@ aesel.model.AeselScene module
 -----------------------------
 
 .. automodule:: aesel.model.AeselScene
+    :members:
+    :show-inheritance:
+
+aesel.model.AeselSceneGroup module
+----------------------------------
+
+.. automodule:: aesel.model.AeselSceneGroup
     :members:
     :show-inheritance:
 
