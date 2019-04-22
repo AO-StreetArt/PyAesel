@@ -17,15 +17,8 @@ Both of these are, however, optional.
 :type: The type of the object (ie. "mesh", "curve", etc).
 :subtype: The subtype of the object (ie. "cube", "sphere", etc).
 :frame: The integer frame of the object
-:timestamp: The integer timestamp of the object (in ms since the Unix Epoch).
 :transform: The transformation matrix of the object, in a single array.  The first four elements make up the first row of the matrix, and this pattern continues.
-:translation: An array of 3 floats, for the translation of the object (ie. [x,y,z]).
-:euler_rotation: An array of 3 floats, for the euler rotation of the object (ie. [x,y,z]).
-:quaternion_rotation: An array of 4 floats, for the quaternion rotation of the object (ie. [w,x,y,z]).
-:scale: An array of 3 floats, for the scale of the object (ie. [x,y,z]).
-:translation_handle: An array of AnimationGraphHandle's which correspond to the [x,y,z] values in the translation array.
-:rotation_handle: An array of 4 AnimationGraphHandle's which correspond to the [w,x,y,z] values in the rotation arrays.
-:scale_handle: An array of 3 AnimationGraphHandle's which correspond to the [x,y,z] values in the scale array.
+:actions: An array of AeselAction instances.
 """
 
 """
@@ -52,23 +45,12 @@ class AeselObject(object):
         self.scene = None
         self.type = None
         self.subtype = None
-        self.frame = None
-        self.timestamp = None
         self.transform = []
-        self.translation = []
-        self.euler_rotation = []
-        self.quaternion_rotation = []
-        self.scale = []
-        self.translation_handle = None
-        self.rotation_handle = None
-        self.scale_handle = None
+        self.actions = []
 
     def to_dict(self):
         return_dict = copy.deepcopy(vars(self))
-        if self.translation_handle is not None:
-            return_dict['translation_handle'] = vars(self.translation_handle)
-            return_dict['rotation_handle'] = vars(self.rotation_handle)
-            return_dict['scale_handle'] = vars(self.scale_handle)
+        return_dict["actions"] = [action.to_dict() for action in self.actions]
         return return_dict
 
     def to_transform_json(self):
@@ -76,14 +58,8 @@ class AeselObject(object):
                     "msg_type": 1,
                     "key":self.key,
                     "name":self.name,
-                    "frame":self.frame,
                     "scene":self.scene,
                     "transform": self.transform
                     }
-        if self.translation_handle is not None:
-            msg_dict['translation_handle'] = vars(self.translation_handle)
-        if self.rotation_handle is not None:
-            msg_dict['rotation_handle'] = vars(self.rotation_handle)
-        if self.scale_handle is not None:
-            msg_dict['scale_handle'] = vars(self.scale_handle)
+        msg_dict["actions"] = [action.to_dict() for action in self.actions]
         return json.dumps(msg_dict)

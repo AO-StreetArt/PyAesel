@@ -22,8 +22,11 @@ from aesel.model.AeselAssetCollection import AeselAssetCollection
 from aesel.model.AeselAssetRelationship import AeselAssetRelationship
 from aesel.model.AeselGraphHandle import AeselGraphHandle
 from aesel.model.AeselObject import AeselObject
+from aesel.model.AeselAction import AeselAction
+from aesel.model.AeselObjectFrame import AeselObjectFrame
 from aesel.model.AeselProject import AeselProject
 from aesel.model.AeselProperty import AeselProperty
+from aesel.model.AeselPropertyFrame import AeselPropertyFrame
 from aesel.model.AeselPropertyValue import AeselPropertyValue
 from aesel.model.AeselScene import AeselScene
 from aesel.model.AeselSceneTransform import AeselSceneTransform
@@ -487,9 +490,7 @@ def test_property_api(transaction_client):
     prop.name = "testProperty"
     prop.scene = "propTestScene"
     prop.frame = 0
-    val = AeselPropertyValue()
-    val.value = 100.0
-    prop.values.append(val)
+    prop.values.append(100.0)
     prop_crt_resp = None
     try:
         prop_crt_resp = transaction_client.create_property("propTestScene", prop)
@@ -536,6 +537,105 @@ def test_property_api(transaction_client):
         assert(False)
     print(prop_query_resp)
     assert(len(prop_query_resp["properties"]) > 0)
+
+    # Add a Property Action
+    print("Add Property Action")
+    prop_action = AeselAction()
+    prop_action.name = "testPropAction"
+    prop_action.description = "this is a Property Action"
+    prop_frame_initial = AeselPropertyFrame()
+    prop_frame_initial.frame = 1
+    pfi_value = AeselPropertyValue()
+    pfi_value.value = 100.0
+    pfi_value.left_type = "test"
+    pfi_value.left_x = 10.0
+    pfi_value.left_y = 10.2
+    pfi_value.right_type = "test2"
+    pfi_value.right_x = 10.1
+    pfi_value.right_y = 10.3
+    prop_frame_initial.values = [pfi_value]
+    prop_action.keyframes = [prop_frame_initial]
+    try:
+        prop_action_add_resp = transaction_client.create_property_action("propTestScene", prop_key, prop_action)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_action_add_resp)
+    assert(prop_action_add_resp["err_code"] == 100)
+
+    # Update a Property Action
+    print("Update Property Action")
+    prop_action2 = AeselAction()
+    prop_action2.name = "testPropAction"
+    prop_action2.description = "this is an updated Property Action"
+    try:
+        prop_action_upd_resp = transaction_client.update_property_action("propTestScene", prop_key, prop_action2)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_action_upd_resp)
+    assert(prop_action_upd_resp["err_code"] == 100)
+
+    # Add a Property Frame to the Action
+    print("Add Property Frame to Action")
+    prop_frame2 = AeselPropertyFrame()
+    prop_frame2.frame = 10
+    pfi2_value = AeselPropertyValue()
+    pfi2_value.value = 100.0
+    pfi2_value.left_type = "test3"
+    pfi2_value.left_x = 10.0
+    pfi2_value.left_y = 10.2
+    pfi2_value.right_type = "test22"
+    pfi2_value.right_x = 10.1
+    pfi2_value.right_y = 10.3
+    prop_frame2.values = [pfi2_value]
+    try:
+        prop_frame_add_resp = transaction_client.create_property_frame("propTestScene", prop_key, "testPropAction", prop_frame2)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_frame_add_resp)
+    assert(prop_frame_add_resp["err_code"] == 100)
+
+    # Update a Property Frame in the Action
+    print("Update Property Frame")
+    prop_frame3 = AeselPropertyFrame()
+    prop_frame3.frame = 10
+    pfi3_value = AeselPropertyValue()
+    pfi3_value.value = 110.0
+    pfi3_value.left_type = "test4"
+    pfi3_value.left_x = 10.1
+    pfi3_value.left_y = 10.4
+    pfi3_value.right_type = "test32"
+    pfi3_value.right_x = 12.1
+    pfi3_value.right_y = 13.3
+    prop_frame3.values = [pfi3_value]
+    try:
+        prop_frame_upd_resp = transaction_client.update_property_frame("propTestScene", prop_key, "testPropAction", prop_frame3)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_frame_upd_resp)
+    assert(prop_frame_upd_resp["err_code"] == 100)
+
+    # Delete a Property Frame in the Action
+    try:
+        prop_frame_del_resp = transaction_client.delete_property_frame("propTestScene", prop_key, "testPropAction", 10)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_frame_upd_resp)
+    assert(prop_frame_upd_resp["err_code"] == 100)
+
+    # Delete a Property Action
+    print("Delete Property Action")
+    try:
+        prop_action_del_resp = transaction_client.delete_property_action("propTestScene", prop_key, "testPropAction")
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(prop_action_del_resp)
+    assert(prop_action_del_resp["err_code"] == 100)
 
     # Delete a Property
     print("Delete Property")
@@ -624,6 +724,166 @@ def test_object_api(transaction_client):
         assert(False)
     print(obj_query_resp)
     assert(len(obj_query_resp["objects"]) > 0)
+
+    # Add an Object Action
+    print("Add Object Action")
+    obj_action = AeselAction()
+    obj_action.name = "testObjAction"
+    obj_action.description = "this is an Object Action"
+    obj_frame_initial = AeselObjectFrame()
+    obj_frame_initial.frame = 1
+    obj_frame_initial.transform = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test"
+        handle.left_x = 10.0 + i
+        handle.left_y = 10.2 + i
+        handle.right_type = "test2"
+        handle.right_x = 10.1 + i
+        handle.right_y = 10.3 + i
+        obj_frame_initial.translation_handle.append(handle)
+    for i in range(0, 4):
+        handle = AeselGraphHandle()
+        handle.left_type = "test"
+        handle.left_x = 10.0 + i
+        handle.left_y = 10.2 + i
+        handle.right_type = "test2"
+        handle.right_x = 10.1 + i
+        handle.right_y = 10.3 + i
+        obj_frame_initial.rotation_handle.append(handle)
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test"
+        handle.left_x = 10.0 + i
+        handle.left_y = 10.2 + i
+        handle.right_type = "test2"
+        handle.right_x = 10.1 + i
+        handle.right_y = 10.3 + i
+        obj_frame_initial.scale_handle.append(handle)
+    obj_action.keyframes = [obj_frame_initial]
+    try:
+        obj_action_add_resp = transaction_client.create_object_action("objTestScene", obj_key, obj_action)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_action_add_resp)
+    assert(obj_action_add_resp["err_code"] == 100)
+
+
+    # Update an Object Action
+    print("Update Object Action")
+    obj_action2 = AeselAction()
+    obj_action2.name = "testObjAction"
+    obj_action2.description = "this is an updated Object Action"
+    try:
+        obj_action_upd_resp = transaction_client.update_object_action("objTestScene", obj_key, obj_action2)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_action_upd_resp)
+    assert(obj_action_upd_resp["err_code"] == 100)
+
+    # Add an Object Frame
+    print("Add Object Frame")
+    obj_frame2 = AeselObjectFrame()
+    obj_frame2.frame = 10
+    obj_frame2.transform = [1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0,
+                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test2"
+        handle.left_x = 11.0 + i
+        handle.left_y = 11.2 + i
+        handle.right_type = "test23"
+        handle.right_x = 12.1 + i
+        handle.right_y = 12.3 + i
+        obj_frame2.translation_handle.append(handle)
+    for i in range(0, 4):
+        handle = AeselGraphHandle()
+        handle.left_type = "test4"
+        handle.left_x = 13.0 + i
+        handle.left_y = 13.2 + i
+        handle.right_type = "test25"
+        handle.right_x = 14.1 + i
+        handle.right_y = 14.3 + i
+        obj_frame2.rotation_handle.append(handle)
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test6"
+        handle.left_x = 15.0 + i
+        handle.left_y = 15.2 + i
+        handle.right_type = "test27"
+        handle.right_x = 16.1 + i
+        handle.right_y = 16.3 + i
+        obj_frame2.scale_handle.append(handle)
+    try:
+        obj_frame_add_resp = transaction_client.create_object_frame("objTestScene", obj_key, "testObjAction", obj_frame2)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_frame_add_resp)
+    assert(obj_frame_add_resp["err_code"] == 100)
+
+    # Update an Object Frame
+    print("Update Object Frame")
+    obj_frame3 = AeselObjectFrame()
+    obj_frame3.frame = 10
+    obj_frame3.transform = [1.0, 0.0, 1.0, 0.0, 2.0, 1.0, 0.0, 1.0,
+                            1.0, 1.0, 1.0, 0.0, 2.0, 1.0, 1.0, 1.0]
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test23"
+        handle.left_x = 12.0 + i
+        handle.left_y = 12.2 + i
+        handle.right_type = "test234"
+        handle.right_x = 13.1 + i
+        handle.right_y = 13.3 + i
+        obj_frame3.translation_handle.append(handle)
+    for i in range(0, 4):
+        handle = AeselGraphHandle()
+        handle.left_type = "test45"
+        handle.left_x = 14.0 + i
+        handle.left_y = 14.2 + i
+        handle.right_type = "test256"
+        handle.right_x = 15.1 + i
+        handle.right_y = 15.3 + i
+        obj_frame3.rotation_handle.append(handle)
+    for i in range(0, 3):
+        handle = AeselGraphHandle()
+        handle.left_type = "test67"
+        handle.left_x = 16.0 + i
+        handle.left_y = 16.2 + i
+        handle.right_type = "test278"
+        handle.right_x = 17.1 + i
+        handle.right_y = 17.3 + i
+        obj_frame3.scale_handle.append(handle)
+    try:
+        obj_frame_upd_resp = transaction_client.update_object_frame("objTestScene", obj_key, "testObjAction", obj_frame3)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_frame_upd_resp)
+    assert(obj_frame_upd_resp["err_code"] == 100)
+
+    # Delete an Object Frame
+    try:
+        obj_frame_del_resp = transaction_client.delete_object_frame("objTestScene", obj_key, "testObjAction", 10)
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_frame_del_resp)
+    assert(obj_frame_del_resp["err_code"] == 100)
+
+    # Delete an Object Action
+    print("Delete Object Action")
+    try:
+        obj_action_del_resp = transaction_client.delete_object_action("objTestScene", obj_key, "testObjAction")
+    except Exception as e:
+        print(e)
+        assert(False)
+    print(obj_action_del_resp)
+    assert(obj_action_del_resp["err_code"] == 100)
 
     # Lock an Object
     print("Lock Object")

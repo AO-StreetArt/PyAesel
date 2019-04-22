@@ -67,9 +67,7 @@ def test_property_events(transaction_client, event_client):
     prop.name = "testProperty"
     prop.scene = "propEventScene"
     prop.frame = 0
-    val = AeselPropertyValue()
-    val.value = 100.0
-    prop.values.append(val)
+    prop.values.append(100.0)
     prop_crt_resp = None
     try:
         prop_crt_resp = transaction_client.create_property("propTestScene", prop)
@@ -87,9 +85,7 @@ def test_property_events(transaction_client, event_client):
     evt_prop.key = prop_key
     evt_prop.scene = "propEventScene"
     evt_prop.frame = 0
-    evt_val = AeselPropertyValue()
-    evt_val.value = 110.0
-    evt_prop.values.append(evt_val)
+    evt_prop.values.append(110.0)
     event_client.send_property_update(evt_prop)
 
     # Wait for event to process
@@ -105,7 +101,7 @@ def test_property_events(transaction_client, event_client):
         assert(False)
     print(prop_get_resp)
     assert(len(prop_get_resp["properties"]) > 0)
-    assert(abs(prop_get_resp["properties"][0]["values"][0]["value"] - 110.0) < 0.001)
+    assert(abs(prop_get_resp["properties"][0]["values"][0] - 110.0) < 0.001)
 
     # Delete a Property
     print("Delete Property")
