@@ -45,7 +45,6 @@ class AeselProperty(object):
         self.parent = None
         self.asset_sub_id = None
         self.scene = None
-        self.frame = None
         self.actions = []
         self.values = []
 
@@ -54,12 +53,11 @@ class AeselProperty(object):
         return_dict["actions"] = [action.to_dict() for action in self.actions]
         return return_dict
 
-    def to_transform_json(self):
+    def to_transform_json(self, mtype=9):
         msg_dict = {
-                    "msg_type": 9,
+                    "msg_type": mtype,
                     "key":self.key,
                     "name":self.name,
-                    "frame":self.frame,
                     "scene":self.scene,
                     "values": self.values
                     }

@@ -53,9 +53,9 @@ class AeselObject(object):
         return_dict["actions"] = [action.to_dict() for action in self.actions]
         return return_dict
 
-    def to_transform_json(self):
+    def to_transform_json(self, mtype=1):
         msg_dict = {
-                    "msg_type": 1,
+                    "msg_type": mtype,
                     "key":self.key,
                     "name":self.name,
                     "scene":self.scene,

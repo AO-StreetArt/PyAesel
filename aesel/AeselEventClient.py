@@ -82,6 +82,24 @@ class AeselEventClient(object):
         """
         self._send_update(obj.to_transform_json())
 
+    def send_object_action_update(self, obj):
+        """
+        Send an outgoing Object Action Update message over UDP.
+
+        :param obj: AeselObject to convert into an event.
+        :return: None.
+        """
+        self._send_update(obj.to_transform_json(mtype=20))
+
+    def send_object_frame_update(self, obj):
+        """
+        Send an outgoing Object Frame Update message over UDP.
+
+        :param obj: AeselObject to convert into an event.
+        :return: None.
+        """
+        self._send_update(obj.to_transform_json(mtype=16))
+
     def send_property_update(self, prop):
         """
         Send an outgoing Property Update message over UDP.
@@ -90,3 +108,21 @@ class AeselEventClient(object):
         :return: None.
         """
         self._send_update(prop.to_transform_json())
+
+    def send_property_action_update(self, prop):
+        """
+        Send an outgoing Property Action Update message over UDP.
+
+        :param prop: AeselProperty to convert into an event.
+        :return: None.
+        """
+        self._send_update(prop.to_transform_json(mtype=28))
+
+    def send_property_frame_update(self, prop):
+        """
+        Send an outgoing Property Frame Update message over UDP.
+
+        :param prop: AeselProperty to convert into an event.
+        :return: None.
+        """
+        self._send_update(prop.to_transform_json(mtype=24))
