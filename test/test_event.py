@@ -140,7 +140,7 @@ def test_property_events(transaction_client, event_client):
     evt_action.keyframes = [evt_frame]
     evt_prop2.actions = [evt_action]
 
-    event_client.send_property_frame_update(evt_prop)
+    event_client.send_property_frame_update(evt_prop2)
 
     # Wait for event to process
     time.sleep(1)
@@ -157,7 +157,8 @@ def test_property_events(transaction_client, event_client):
     assert(len(prop_get_resp2["properties"]) > 0)
     assert(len(prop_get_resp2["properties"][0]["actions"]) > 0)
     assert(len(prop_get_resp2["properties"][0]["actions"][0]["keyframes"]) > 0)
-    assert(abs(prop_get_resp2["properties"][0]["actions"][0]["keyframes"][0]["value"] - 103.0) < 0.001)
+    assert(len(prop_get_resp2["properties"][0]["actions"][0]["keyframes"][0]["values"]) > 0)
+    assert(abs(prop_get_resp2["properties"][0]["actions"][0]["keyframes"][0]["values"][0]["value"] - 103.0) < 0.001)
 
     # Delete a Property
     print("Delete Property")
